@@ -233,6 +233,27 @@ export function earnedDevBadges(stats: Stat[]): DevBadge[] {
 /** Warna cincin avatar (urut) dari daftar gelar Master yang diraih — dipakai langsung sebagai prop `rings` Avatar. */
 export const devBadgeRingColors = (badges: DevBadge[]) => badges.map((b) => b.theme.main);
 
+// ════════ v2.3: bingkai Master yang bisa DIPILIH + kelompok papan peringkat ════════
+/** Bingkai yang tampil di avatar & kartu: `msel` (pilihan pemain) dipakai kalau gelarnya sudah diraih. `"none"` = tanpa bingkai.
+ *  Tanpa pilihan: Full Stack (paling langka) > Backend > Frontend. Mengembalikan null bila belum ada gelar Master. */
+export const MASTER_PRIORITY: DevRole[] = ["fullstack", "backend", "frontend"];
+export const isMasterSel = (x: unknown): x is DevRole | "none" => x === "none" || (typeof x === "string" && isDevRole(x));
+export function activeMaster(badges: DevBadge[], msel?: string | null): DevRole | null {
+  if (msel === "none") return null;
+  if (msel && isDevRole(msel) && badges.some((b) => b.role === msel)) return msel;
+  return MASTER_PRIORITY.find((r) => badges.some((b) => b.role === r)) ?? null;
+}
+/** Kelompok tab papan peringkat & kartu peringkat (id = nilai `difficulty` di user_stats). */
+export const RANK_GROUPS: { key: "classic" | "god" | "dev"; ids: string[] }[] = [
+  { key: "classic", ids: LEVEL_IDS },
+  { key: "god", ids: GOD_IDS },
+  { key: "dev", ids: DEV_IDS },
+];
+export const rankLabel = (id: string) => (isDevRole(id) ? DEV_ROLES[id].label : isGodLevel(id) ? GOD_LEVELS[id].label : isLevel(id) ? LEVELS[id].label : id);
+/** Warna teks/label yang terbaca di latar gelap (DEV_THEMES.backend sengaja hitam pekat, tidak cocok untuk teks). */
+export const MASTER_TEXT: Record<DevRole, string> = { frontend: "#ff5a3d", backend: "#b9bfcc", fullstack: "#b65cff" };
+export const rankTheme = (id: string) => (isDevRole(id) ? { ...DEV_THEMES[id], main: MASTER_TEXT[id] } : isGodLevel(id) ? GOD_THEMES[id] : isLevel(id) ? THEMES[id] : THEMES.easy);
+
 export const playLabel = (id: PlayableLevel) => (isDevRole(id) ? DEV_ROLES[id].label : anyLabel(id));
 export const playTheme = (id: PlayableLevel) => (isDevRole(id) ? DEV_THEMES[id] : anyTheme(id));
 

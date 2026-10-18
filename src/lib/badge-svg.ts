@@ -74,6 +74,7 @@ const CSS = `.bk{overflow:visible}
 @keyframes bk-flap2{0%,100%{transform:rotate(0deg)}50%{transform:rotate(-5deg)}}
 .bk.hot .wing,.bk.hot .wsub{animation-duration:.85s}
 .bk.paused *{animation-play-state:paused!important}
+.bk.still *{animation:none!important}
 @media (prefers-reduced-motion:reduce){.bk *{animation:none!important}}`;
 
 const leaf = (L: number, w: number) => `M0 0C${f(L * .22)} ${f(-w)} ${f(L * .72)} ${f(-w * .95)} ${f(L)} 0C${f(L * .72)} ${f(w * .95)} ${f(L * .22)} ${f(w)} 0 0Z`;
@@ -223,7 +224,7 @@ export function badgeSvg({ uid, tier, level, tech, size = 320, still = false }: 
   const crown = leg ? `<g class="hov"><path d="M130 100L136 72L149 87L160 62L171 87L184 72L190 100Z" fill="url(#${p}gd)" stroke="${hell ? "#7a4a00" : mix(th.glow, "#000000", .5)}" stroke-width="1.5" stroke-linejoin="round"/><rect x="130" y="98" width="60" height="7" rx="2" fill="url(#${p}gd)" stroke="${hell ? "#7a4a00" : mix(th.glow, "#000000", .5)}" stroke-width="1.2"/><circle cx="160" cy="66" r="3.4" fill="${J[0]}"/><circle cx="136" cy="76" r="2.6" fill="${J[1]}"/><circle cx="184" cy="76" r="2.6" fill="${J[1]}"/></g>` : "";
   const fg = (leg && size > 100 ? glints(th, lv.length * 17) : "") + (leg && size > 100 && hell ? embers(22, "#ffb43a", 5, 100, 205) + embers(10, "#ff3b3b", 9, 60, 210) : leg && size > 100 && effLv === "easy" ? embers(8, "#e5e7eb", 3, 110, 200) : "");
   const aura = leg ? `<circle class="aura" cx="${CX}" cy="${CY}" r="150" fill="url(#${p}au)"/>` : `<circle cx="${CX}" cy="${CY}" r="120" fill="url(#${p}au)" opacity=".5"/>`;
-  return `<svg class="bk" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 280" width="${size}" height="${f(size * .875)}" aria-hidden="true"><style>${CSS}${still ? ".bk *{animation:none!important}" : ""}</style>
+  return `<svg class="bk${still ? " still" : ""}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 280" width="${size}" height="${f(size * .875)}" aria-hidden="true"><style>${CSS}</style>
 <defs>
 <linearGradient id="${p}wbody" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="${mix(th.main, "#0a0d16", .5)}"/><stop offset="1" stop-color="${mix(th.glow, "#0a0d16", .66)}"/></linearGradient>
 <linearGradient id="${p}bz" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${th.accent}"/><stop offset=".5" stop-color="${th.main}"/><stop offset="1" stop-color="${th.glow}"/></linearGradient>

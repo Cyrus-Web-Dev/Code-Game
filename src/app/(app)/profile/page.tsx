@@ -8,8 +8,9 @@ import { Button } from "@/components/ui/button";
 import TitleBadge from "@/components/TitleBadge";
 import LevelRanks from "@/components/LevelRanks";
 import GameHistory from "@/components/GameHistory";
-import { ACHIEVEMENTS, LEVEL_IDS, LEVELS, TITLE_DEFS, THEMES, anyTheme, earnedDevBadges, devBadgeRingColors, type AchievementId } from "@/lib/config";
+import { ACHIEVEMENTS, LEVEL_IDS, LEVELS, TITLE_DEFS, THEMES, anyTheme, earnedDevBadges, activeMaster, type AchievementId } from "@/lib/config";
 import Avatar from "@/components/Avatar";
+import { MasterCard, MasterPill } from "@/components/Master";
 import { useLang, useT } from "@/lib/i18n";
 import { api } from "@/lib/supabase";
 import { useMe } from "@/lib/store";
@@ -39,7 +40,7 @@ export default function Profile() {
   if (!d) return <div className="grid gap-4"><div className="skeleton h-72 w-full" /><div className="skeleton h-32 w-full" /></div>;
   if (d.error) return <p>{t("err_" + d.error)}</p>;
   const p = d.profile, ti = d.title, th = anyTheme(ti.level), meta = d.meta ?? { streak: 0, bestStreak: 0, achievements: [] };
-  const devBadges = earnedDevBadges(d.stats ?? []);
+  const devBadges = earnedDevBadges(d.stats ?? []), master = activeMaster(devBadges, p.selected_master);
   async function save() {
     const r: any = await api("/api/profile", e);
     setMsg(r.error ? t("err_" + r.error) : t("saved")); if (!r.error) { useMe.getState().invalidate(); load(true); }
@@ -52,18 +53,19 @@ export default function Profile() {
   const Chip = ({ k, v }: { k: string; v: string }) => <span className="chip"><span className="text-paper/50">{k}</span><b>{v || "-"}</b></span>;
   return (
     <div className="grid gap-6">
+      <MasterCard role={master}>
       <section className="print-card relative overflow-hidden rounded-2xl border p-5 sm:p-7" style={{ borderColor: th.main + "88", background: `radial-gradient(120% 110% at 15% 0%, ${th.glow}55, rgba(24,21,38,.94) 62%)`, boxShadow: `0 0 70px -20px ${th.glow}` }}>
         <div className="grid items-center gap-6 md:grid-cols-[330px_1fr]">
           <TitleBadge tier={ti.tier} level={ti.level} tech={p.favorite_language} size={330} label={ti.name} particles />
           <div>
             <div className="flex items-center gap-3">
-              <Avatar src={p.avatar_url} name={p.username} size={64} rings={devBadgeRingColors(devBadges)} />
+              <Avatar src={p.avatar_url} name={p.username} size={64} master={master} />
               <div><h1 className="flex flex-wrap items-center gap-2 font-display text-3xl">{p.username}{p.is_demo && <span className="chip chip-demo">{t("demo_tag")}</span>}</h1>
                 <p className="text-xs uppercase tracking-[0.25em]" style={{ color: th.main }}>{t("tier_" + ti.tier)}</p></div>
             </div>
             {devBadges.length > 0 && (
               <div className="mt-3 flex flex-wrap gap-2">
-                {devBadges.map((b) => <span key={b.role} className="rounded-full px-2.5 py-1 text-xs font-semibold" style={{ background: b.theme.main + "22", color: b.theme.main, border: `1px solid ${b.theme.main}66` }}>{b.name}</span>)}
+                {devBadges.map((b) => <MasterPill key={b.role} role={b.role} active={b.role === master} className="px-2.5 py-1 text-xs" />)}
               </div>
             )}
             <p className="mt-4 text-xs text-paper/60">{t("p_title_label")}</p>
@@ -80,6 +82,7 @@ export default function Profile() {
           </div>
         </div>
       </section>
+      </MasterCard>
 
       <section className="grid gap-3">
         <h2 className="font-display text-xl text-gold">{t("p_levelranks")}</h2>

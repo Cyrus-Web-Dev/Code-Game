@@ -2,6 +2,10 @@ import { create } from "zustand";
 import type { Lang } from "./config";
 const D = {
   id: {
+    lr_group_classic: "Tingkat klasik", lr_group_god: "God Mode", lr_group_dev: "Developer Mode",
+    lb_grp_classic: "Klasik", lb_grp_god: "God Mode", lb_grp_dev: "Developer Mode", lb_master_hint: "Bingkai menyala = sudah mencapai ranah Master.",
+    mf_title: "Bingkai Master", mf_desc: "Bingkai bercahaya di foto profil, peringkat, dan kartu profilmu. Pilih salah satu yang sudah dibuka.", mf_auto: "Otomatis (paling langka)", mf_none: "Tanpa bingkai", mf_use: "Pakai bingkai ini", mf_current: "Sedang dipakai", mf_locked: "Terkunci", mf_picked: "Bingkai diperbarui.",
+    mf_frontend: "Merah membara dan menyala", mf_backend: "Hitam pekat beraura kegelapan", mf_fullstack: "Ungu tajam berpadu merah membara & hitam pekat", mf_req: "{n}/50 soal · akurasi {a}% (butuh ≥85%)", p_master_ranks: "Peringkat God Mode & Developer Mode",
     app: "Kode Tebak", tagline: "Tebak bahasa pemrograman dari potongan kode.", back: "Kembali", loading: "Memuat…", save: "Simpan", saved: "Tersimpan.", points: "poin", rank: "Peringkat",
     m_start: "Mulai", m_info: "Informasi", m_settings: "Pengaturan Bahasa", m_contact: "Kontak Developer", m_logout: "Keluar",
     nav_friends: "Teman", fr_title: "Teman", fr_tab_list: "Teman game", fr_tab_req: "Permintaan", fr_tab_add: "Tambah", fr_count: "Teman {n}/100", fr_empty: "Belum ada teman. Buka tab Tambah untuk mencari pemain.", fr_no_req: "Tidak ada permintaan.", fr_incoming: "Permintaan masuk", fr_outgoing: "Permintaan terkirim",
@@ -64,6 +68,10 @@ const D = {
     ob_start: "Mulai bermain", ob_skip: "Lewati tutorial",
   },
   en: {
+    lr_group_classic: "Classic levels", lr_group_god: "God Mode", lr_group_dev: "Developer Mode",
+    lb_grp_classic: "Classic", lb_grp_god: "God Mode", lb_grp_dev: "Developer Mode", lb_master_hint: "A blazing frame means the player reached Master.",
+    mf_title: "Master frame", mf_desc: "The glowing frame on your avatar, leaderboard row, and profile card. Pick any one you have unlocked.", mf_auto: "Automatic (rarest)", mf_none: "No frame", mf_use: "Use this frame", mf_current: "In use", mf_locked: "Locked", mf_picked: "Frame updated.",
+    mf_frontend: "Blazing, burning red", mf_backend: "Pitch black with a dark aura", mf_fullstack: "Sharp violet fused with blazing red & pitch black", mf_req: "{n}/50 questions · accuracy {a}% (needs ≥85%)", p_master_ranks: "God Mode & Developer Mode ranks",
     app: "Code Guess", tagline: "Guess the programming language from a code snippet.", back: "Back", loading: "Loading…", save: "Save", saved: "Saved.", points: "pts", rank: "Rank",
     m_start: "Start", m_info: "Information", m_settings: "Language Settings", m_contact: "Contact Developer", m_logout: "Log out",
     nav_friends: "Friends", fr_title: "Friends", fr_tab_list: "Game friends", fr_tab_req: "Requests", fr_tab_add: "Add", fr_count: "Friends {n}/100", fr_empty: "No friends yet. Open the Add tab to find players.", fr_no_req: "No requests.", fr_incoming: "Incoming requests", fr_outgoing: "Sent requests",

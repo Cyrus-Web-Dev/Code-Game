@@ -2,7 +2,8 @@
 import { useEffect, useState } from "react";
 import { Check, Lock, Star } from "lucide-react";
 import TitleBadge from "@/components/TitleBadge";
-import { LEVEL_IDS, LEVELS, STARTERS, THEMES, TITLE_DEFS, LEGEND_RULE, STD_RULE, answersNeeded, anyTheme, GOD_IDS, GOD_LEVELS, GOD_TITLE_DEFS, type Level, type AnyLevel } from "@/lib/config";
+import Avatar from "@/components/Avatar";
+import { LEVEL_IDS, LEVELS, STARTERS, THEMES, DEV_THEMES, TITLE_DEFS, LEGEND_RULE, STD_RULE, answersNeeded, anyTheme, GOD_IDS, GOD_LEVELS, GOD_TITLE_DEFS, DEV_IDS, DEV_TITLE_DEFS, DEV_BADGE_RULE, MASTER_TEXT, earnedDevBadges, activeMaster, type Level, type AnyLevel, type DevRole } from "@/lib/config";
 import { useLang, useT } from "@/lib/i18n";
 import { useMe } from "@/lib/store";
 import { api } from "@/lib/supabase";
@@ -21,12 +22,21 @@ export default function Titles() {
     setD(await useMe.getState().fetchMe({ force: true }));
     setBusy(false); setMsg(t("t_picked"));
   }
+  async function pickMaster(key: string | null) {
+    setBusy(true);
+    const r: any = await api("/api/master", { key });
+    if (r?.error) { setBusy(false); setMsg(t("err_" + r.error)); return; }
+    useMe.getState().invalidate();
+    setD(await useMe.getState().fetchMe({ force: true }));
+    setBusy(false); setMsg(t("mf_picked"));
+  }
   if (!d) return <div className="grid gap-4"><div className="skeleton h-24 w-full" /><div className="skeleton h-80 w-full" /></div>;
   if (d.error) return <p>{t("err_" + d.error)}</p>;
   const tech = d.profile.favorite_language as string | null;
-  const stat = (l: AnyLevel) => { const s = d.stats.find((x: any) => x.difficulty === l), n = s?.questions_answered ?? 0; return { n, c: s?.correct_answers ?? 0, a: n ? Math.round((s.correct_answers / n) * 100) : 0 }; };
+  const stat = (l: string) => { const s = d.stats.find((x: any) => x.difficulty === l), n = s?.questions_answered ?? 0; return { n, c: s?.correct_answers ?? 0, a: n ? Math.round((s.correct_answers / n) * 100) : 0 }; };
   const got = (l: AnyLevel) => d.titles.find((x: any) => x.level === l);
   const owned = new Set<string>((d.owned ?? []).map((o: any) => o.key));
+  const earnedBadges = earnedDevBadges(d.stats ?? []), activeFrame = activeMaster(earnedBadges, d.profile.selected_master);
   const cur = d.title, legCount = LEVEL_IDS.filter((l) => got(l)?.tier === "legendary").length;
   const starters: Card[] = (Object.entries(STARTERS) as [string, (typeof STARTERS)[string]][]).map(([k, v]) => ({ key: k, name: v.name, tier: "starter", level: "easy", desc: v.desc[lang], state: cur.key === "starter" && cur.name === v.name ? "current" : d.profile.starter_title === k ? "earned" : "other", pick: "starter" }));
   const byLevel = LEVEL_IDS.map((l): Card[] => {
@@ -102,6 +112,40 @@ export default function Titles() {
         {d.profile.selected_title && <button disabled={busy} onClick={() => pick(null)} className="btn mt-3 px-3 py-1.5 text-xs">{t("t_auto")}</button>}
         {msg && <p role="status" className="mt-2 text-sm text-gold">{msg}</p>}
       </div>
+      <section>
+        <h2 className="mb-1 text-xl font-semibold text-paper">{t("mf_title")}</h2>
+        <p className="mb-4 text-sm text-paper/60">{t("mf_desc")}</p>
+        <div className="grid gap-4 sm:grid-cols-3">
+          {DEV_IDS.map((r: DevRole) => {
+            const st = stat(r), have = earnedBadges.some((b) => b.role === r), active = activeFrame === r, tc = MASTER_TEXT[r];
+            const pct = Math.min(100, Math.round((st.n / DEV_BADGE_RULE.minQ) * 100));
+            return (
+              <div key={r} className={`level-card text-center ${active ? "ring-2 ring-gold" : ""} ${have ? "" : "opacity-80"}`} style={{ ["--c" as string]: tc, ["--g" as string]: DEV_THEMES[r].glow === "#000000" ? "#2a2338" : DEV_THEMES[r].glow }}>
+                <div className="flex justify-center py-3"><Avatar src={d.profile.avatar_url} name={d.profile.username} size={76} master={r} /></div>
+                <h3 className="text-base font-bold" style={{ color: tc }}>{DEV_TITLE_DEFS[r].name}</h3>
+                <p className="mt-0.5 text-xs text-paper/70">{t("mf_" + r)}</p>
+                <div className="mt-3 flex justify-center">
+                  {!have ? <span className="chip"><Lock size={12} />{t("mf_locked")}</span>
+                    : active ? <span className="chip border-gold text-gold"><Star size={12} />{t("mf_current")}</span>
+                    : <button disabled={busy} onClick={() => pickMaster(r)} className="btn btn-primary px-4 py-1.5 text-sm">{t("mf_use")}</button>}
+                </div>
+                {!have && (
+                  <div className="mx-auto mt-3 max-w-xs text-left">
+                    <div className="bar"><i style={{ width: `${pct}%` }} /></div>
+                    <p className="mt-1 text-xs text-paper/60">{t("mf_req", { n: Math.min(st.n, DEV_BADGE_RULE.minQ), a: st.a })}</p>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+        {earnedBadges.length > 0 && (
+          <div className="mt-3 flex flex-wrap gap-2">
+            {d.profile.selected_master !== null && d.profile.selected_master !== undefined && <button disabled={busy} onClick={() => pickMaster(null)} className="btn px-3 py-1.5 text-xs">{t("mf_auto")}</button>}
+            {d.profile.selected_master !== "none" && <button disabled={busy} onClick={() => pickMaster("none")} className="btn px-3 py-1.5 text-xs">{t("mf_none")}</button>}
+          </div>
+        )}
+      </section>
       <section><h2 className="mb-4 text-xl font-semibold text-mint">{t("t_starter")}</h2><div className="grid gap-4 sm:grid-cols-2">{starters.map(render)}</div></section>
       {LEVEL_IDS.map((l, i) => (
         <section key={l}>

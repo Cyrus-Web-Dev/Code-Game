@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import Avatar from "@/components/Avatar";
-import { DEV_IDS, DEV_ROLES, DEV_THEMES, DEV_TITLE_DEFS, DEV_BADGE_RULE, earnedDevBadges, devBadgeRingColors } from "@/lib/config";
+import { MasterPill } from "@/components/Master";
+import { DEV_IDS, DEV_ROLES, DEV_THEMES, DEV_TITLE_DEFS, DEV_BADGE_RULE, earnedDevBadges, activeMaster } from "@/lib/config";
 import { useT, useLang } from "@/lib/i18n";
 import { useMe } from "@/lib/store";
 
@@ -16,17 +17,18 @@ export default function DevMode() {
   const [stats, setStats] = useState<any[]>([]);
   const [username, setUsername] = useState("Kamu");
   const [avatar, setAvatar] = useState<string | null>(null);
+  const [msel, setMsel] = useState<string | null>(null);
 
   useEffect(() => {
     useMe.getState().fetchMe().then((d: any) => {
       if (!d || d.error) { setLoading(false); return; }
-      setStats(d.stats ?? []); setUsername(d.profile?.username ?? "Kamu"); setAvatar(d.profile?.avatar_url ?? null);
+      setStats(d.stats ?? []); setUsername(d.profile?.username ?? "Kamu"); setAvatar(d.profile?.avatar_url ?? null); setMsel(d.profile?.selected_master ?? null);
       setLoading(false);
     });
   }, []);
 
   const badges = earnedDevBadges(stats);
-  const ringColors = devBadgeRingColors(badges);
+  const master = activeMaster(badges, msel);
 
   if (loading) return (
     <div className="grid gap-3">
@@ -45,11 +47,11 @@ export default function DevMode() {
       {badges.length > 0 && (
         <Card className="border-line/60">
           <CardContent className="flex items-center gap-4 py-4">
-            <Avatar name={username} src={avatar} size={56} rings={ringColors} />
+            <Avatar name={username} src={avatar} size={56} master={master} />
             <div>
               <div className="text-sm text-paper/60">{t("dev_your_badges")}</div>
               <div className="mt-1 flex flex-wrap gap-2">
-                {badges.map((b) => <span key={b.role} className="rounded-full px-2.5 py-1 text-xs font-semibold" style={{ background: b.theme.main + "22", color: b.theme.main, border: `1px solid ${b.theme.main}55` }}>{b.name}</span>)}
+                {badges.map((b) => <MasterPill key={b.role} role={b.role} active={b.role === master} className="px-2.5 py-1 text-xs" />)}
               </div>
             </div>
           </CardContent>

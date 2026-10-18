@@ -3,14 +3,15 @@ import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { UserPlus, Check, X, Search, UserMinus, Clock } from "lucide-react";
 import Avatar from "@/components/Avatar";
+import { MasterPill } from "@/components/Master";
 import TitleBadge from "@/components/TitleBadge";
-import { currentTitle, LEVELS, anyTheme, earnedDevBadges, devBadgeRingColors, isPlayable, playLabel } from "@/lib/config";
+import { currentTitle, LEVELS, anyTheme, earnedDevBadges, activeMaster, isPlayable, playLabel } from "@/lib/config";
 import { useT } from "@/lib/i18n";
 import { agoText } from "@/lib/time";
 import { api } from "@/lib/supabase";
 import { usePresence } from "@/lib/store";
 
-type Friend = { id: string; username: string; avatar: string | null; fav: string | null; starter: string; sel?: string | null; demo: boolean; pts: number; online: boolean; seen_ago: number | null; playing: string | null; stats: any[] };
+type Friend = { id: string; username: string; avatar: string | null; fav: string | null; starter: string; sel?: string | null; msel?: string | null; demo: boolean; pts: number; online: boolean; seen_ago: number | null; playing: string | null; stats: any[] };
 type Req = { request_id: number; id: string; username: string; avatar: string | null };
 type Found = { id: string; username: string; avatar: string | null; pts: number; relation: "none" | "friends" | "pending_out" | "pending_in" };
 type Tab = "list" | "req" | "add";
@@ -71,15 +72,15 @@ export default function Friends() {
           {data && <p className="text-xs text-paper/50">{t("fr_count", { n: data.friends.length })}</p>}
           {data && data.friends.length === 0 && <p className="text-paper/70">{t("fr_empty")}</p>}
           {data?.friends.map((f) => {
-            const ti = currentTitle(f.starter, f.stats, f.sel), th = anyTheme(ti.level), st = status(f), devBadges = earnedDevBadges(f.stats ?? []);
+            const ti = currentTitle(f.starter, f.stats, f.sel), th = anyTheme(ti.level), st = status(f), devBadges = earnedDevBadges(f.stats ?? []), master = activeMaster(devBadges, f.msel);
             return (
               <div key={f.id} className="level-card" style={{ ["--c" as string]: th.main, ["--g" as string]: th.glow }}>
                 <div className="flex items-center gap-3">
-                  <Avatar src={f.avatar} name={f.username} size={56} online={f.online || !!f.playing} rings={devBadgeRingColors(devBadges)} />
+                  <Avatar src={f.avatar} name={f.username} size={56} online={f.online || !!f.playing} master={master} />
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2"><Link href={`/u/${f.username}`} className="truncate text-lg font-bold hover:underline">{f.username}</Link>{f.demo && <span className="chip chip-demo">{t("demo_tag")}</span>}</div>
                     <div className="truncate text-xs font-semibold" style={{ color: th.main }}>{ti.name}</div>
-                    {devBadges.length > 0 && <div className="mt-0.5 flex flex-wrap gap-1">{devBadges.map((b) => <span key={b.role} className="rounded-full px-1.5 py-0.5 text-[9px] font-bold" style={{ background: b.theme.main + "26", color: b.theme.main }}>{b.name}</span>)}</div>}
+                    {devBadges.length > 0 && <div className="mt-0.5 flex flex-wrap gap-1">{devBadges.map((b) => <MasterPill key={b.role} role={b.role} active={b.role === master} className="text-[9px] px-1.5 py-0.5" />)}</div>}
                     <div className={`text-xs ${st.cls}`}>{st.text}</div>
                   </div>
                   <div className="hidden sm:block"><TitleBadge tier={ti.tier} level={ti.level} tech={f.fav} size={84} label={ti.name} still={ti.tier !== "legendary"} /></div>

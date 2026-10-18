@@ -169,3 +169,87 @@ body { @apply bg-ink text-paper font-sans antialiased; }
 .chip-demo { border-color: #f5c451; color: #f5c451; background: rgba(245,196,81,.1); font-weight: 700; letter-spacing: .1em; }
 .podium-1 { box-shadow: 0 0 60px -10px rgba(245,196,81,.55); }
 @media (prefers-reduced-motion: reduce) { .text-shine { animation: none; } .level-card, .title-card { transition: none; } }
+
+/* ═════════ v2.3: bingkai & kartu MASTER (Frontend / Backend / Full Stack) ═════════
+   Murni CSS: conic-gradient + mask + transform/opacity (dikomposit GPU), tanpa library & tanpa filter blur,
+   jadi ringan untuk Vercel gratis maupun HP kelas menengah. Animasi otomatis mati di prefers-reduced-motion
+   (aturan global di atas) dan jeda saat tab disembunyikan oleh browser. */
+@property --ang { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+@keyframes mf-spin  { to { transform: rotate(360deg); } }
+@keyframes mf-spinr { to { transform: rotate(-360deg); } }
+@keyframes mf-ang   { to { --ang: 360deg; } }
+@keyframes mf-breathe { 0%, 100% { opacity: .7; transform: scale(.96); } 50% { opacity: 1; transform: scale(1.07); } }
+@keyframes mf-flick { 0%, 100% { opacity: .85; transform: scale(1); } 18% { opacity: 1; transform: scale(1.06); } 40% { opacity: .68; transform: scale(.96); } 62% { opacity: 1; transform: scale(1.08); } 82% { opacity: .8; transform: scale(1.01); } }
+@keyframes mf-rise  { 0% { opacity: 0; transform: translate(0, 0) scale(1); } 14% { opacity: 1; } 100% { opacity: 0; transform: translate(calc(var(--s) * var(--k)), calc(var(--s) * -1.15)) scale(.2); } }
+@keyframes mf-smoke { 0% { opacity: 0; transform: translate(0, 0) scale(.5); } 25% { opacity: .9; } 100% { opacity: 0; transform: translate(calc(var(--s) * var(--k)), calc(var(--s) * -1.05)) scale(1.7); } }
+@keyframes mf-glow  { 0%, 100% { opacity: .75; } 50% { opacity: 1; } }
+@keyframes mf-cardrise { 0% { opacity: 0; transform: translate(0, 0) scale(1); } 12% { opacity: .95; } 100% { opacity: 0; transform: translate(var(--dx), -250px) scale(.2); } }
+
+/* ── Avatar ── */
+.mf { position: relative; display: inline-block; --gap: 2px; }
+.mf-core { position: relative; z-index: 3; display: block; border-radius: 9999px; box-shadow: 0 0 0 var(--gap) #0d0b14; }
+.mf-aura, .mf-ring, .mf-ring2, .mf-edge { position: absolute; border-radius: 9999px; pointer-events: none; }
+.mf-aura { z-index: 0; inset: calc((var(--rw) + var(--gap)) * -2.8); animation: mf-breathe 3s ease-in-out infinite; }
+.mf-ring { z-index: 1; inset: calc((var(--rw) + var(--gap)) * -1);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - var(--rw)), #000 calc(100% - var(--rw) + .6px));
+          mask: radial-gradient(farthest-side, transparent calc(100% - var(--rw)), #000 calc(100% - var(--rw) + .6px));
+  animation: mf-spin 5.5s linear infinite; will-change: transform; }
+.mf-edge { z-index: 2; inset: calc((var(--rw) + var(--gap)) * -1); box-shadow: inset 0 0 0 1px var(--medge), 0 0 0 1px var(--medge); }
+.mf-ring2 { z-index: 1; --mw: max(2px, calc(var(--rw) * .55)); inset: calc((var(--rw) + var(--gap) + var(--mw) + 2px) * -1);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - var(--mw)), #000 calc(100% - var(--mw) + .6px));
+          mask: radial-gradient(farthest-side, transparent calc(100% - var(--mw)), #000 calc(100% - var(--mw) + .6px));
+  animation: mf-spinr 9s linear infinite; will-change: transform; }
+.mf-sp { position: absolute; z-index: 4; left: 50%; bottom: 22%; width: max(2px, calc(var(--s) * .055)); height: max(2px, calc(var(--s) * .055)); margin-left: -1px; border-radius: 9999px; background: var(--msp); box-shadow: 0 0 6px 1px var(--msp); opacity: 0; pointer-events: none; animation: mf-rise var(--t, 2.6s) ease-out var(--d, 0s) infinite; }
+
+/* Frontend — merah membara & menyala */
+.mf-frontend { --medge: rgba(255, 190, 120, .45); --msp: #ffb43a; }
+.mf-frontend .mf-aura { background: radial-gradient(circle, rgba(255, 60, 10, .7) 34%, rgba(255, 130, 20, .24) 56%, transparent 72%); animation: mf-flick 1.7s linear infinite; }
+.mf-frontend .mf-ring { background: conic-gradient(#ff2a00, #ff7a00 16%, #ffe27a 28%, #ff7a00 40%, #ff2a00 54%, #7a0000 72%, #ff2a00); }
+.mf-frontend .mf-ring2 { background: repeating-conic-gradient(#ff9a1f 0 9deg, transparent 9deg 26deg); opacity: .9; animation: mf-spinr 6s linear infinite; }
+.mf-frontend .mf-sp:nth-child(even) { --msp: #ff4a1c; }
+
+/* Backend — hitam pekat, aura kegelapan */
+.mf-backend { --medge: rgba(205, 205, 228, .42); --msp: rgba(110, 90, 160, .6); }
+.mf-backend .mf-aura { background: radial-gradient(circle, rgba(0, 0, 0, .95) 38%, rgba(26, 16, 44, .7) 54%, rgba(120, 96, 175, .2) 66%, transparent 76%); }
+.mf-backend .mf-ring { background: conic-gradient(#000 0%, #1c1c24 9%, #000 20%, #a3a3b8 27%, #15151b 33%, #000 52%, #4d4d5d 64%, #000 76%, #1c1c24 90%, #000 100%); animation-duration: 8s; }
+.mf-backend .mf-ring2 { background: repeating-conic-gradient(rgba(150, 130, 200, .55) 0 3deg, transparent 3deg 22deg); opacity: .75; animation-duration: 12s; }
+.mf-backend .mf-sp { width: calc(var(--s) * .24); height: calc(var(--s) * .24); margin-left: calc(var(--s) * -.12); background: radial-gradient(circle, rgba(0, 0, 0, .92), rgba(72, 56, 104, .38) 58%, transparent 72%); box-shadow: none; animation-name: mf-smoke; animation-duration: var(--t, 3.4s); }
+
+/* Full Stack — ungu tajam + merah membara + hitam pekat */
+.mf-fullstack { --medge: rgba(216, 180, 254, .5); --msp: #d8b4fe; }
+.mf-fullstack .mf-aura { background: radial-gradient(circle, rgba(165, 40, 255, .66) 34%, rgba(255, 40, 50, .24) 56%, transparent 72%); }
+.mf-fullstack .mf-ring { background: conic-gradient(#b026ff 0 20%, #000 20% 27%, #ff2a2a 27% 46%, #000 46% 53%, #7c1fd1 53% 76%, #000 76% 82%, #ff2a2a 82% 91%, #b026ff 91% 100%); animation-duration: 4.2s; }
+.mf-fullstack .mf-ring2 { background: repeating-conic-gradient(#e9d5ff 0 4deg, transparent 4deg 15deg); opacity: .85; }
+.mf-fullstack .mf-sp:nth-child(odd) { --msp: #ff3b3b; }
+
+/* ── Kartu (podium / profil): border animasi tebal + cahaya luar + partikel ── */
+.mcard { position: relative; isolation: isolate; --mr: 1rem; border-radius: var(--mr); }
+.mcard::before { content: ""; position: absolute; z-index: 3; inset: -3px; padding: 3px; border-radius: calc(var(--mr) + 3px); pointer-events: none;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor;
+          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite: exclude;
+  animation: mf-ang 7s linear infinite; }
+.mcard::after { content: ""; position: absolute; z-index: -1; inset: -3px; border-radius: calc(var(--mr) + 3px); pointer-events: none; animation: mf-glow 3.2s ease-in-out infinite; }
+.mcard-frontend::before { background: conic-gradient(from var(--ang), #ff2a00, #ff9a1f, #ffe27a, #ff9a1f, #ff2a00, #7a0000, #ff2a00); }
+.mcard-frontend::after { box-shadow: 0 0 26px 2px rgba(255, 70, 20, .55), 0 0 80px 8px rgba(255, 120, 20, .28); }
+.mcard-backend::before { background: conic-gradient(from var(--ang), #050507, #2b2b36 14%, #050507 28%, #a6a6bb 36%, #121217 46%, #050507 68%, #3b3b4a 84%, #050507); }
+.mcard-backend::after { box-shadow: 0 0 30px 4px rgba(0, 0, 0, .95), 0 0 90px 12px rgba(100, 76, 160, .38); }
+.mcard-fullstack::before { background: conic-gradient(from var(--ang), #b026ff 0 20%, #000 20% 27%, #ff2a2a 27% 46%, #000 46% 53%, #7c1fd1 53% 76%, #000 76% 82%, #ff2a2a 82% 91%, #b026ff 91% 100%); }
+.mcard-fullstack::after { box-shadow: 0 0 28px 2px rgba(176, 38, 255, .5), 0 0 90px 10px rgba(255, 42, 42, .26); }
+.mcard-fx { position: absolute; inset: 0; z-index: 0; overflow: hidden; border-radius: inherit; pointer-events: none; }
+.mcard-fx b { position: absolute; bottom: 0; left: var(--x); width: 4px; height: 4px; border-radius: 9999px; background: var(--fc); box-shadow: 0 0 8px 1px var(--fc); opacity: 0; animation: mf-cardrise var(--t, 5s) ease-out var(--d, 0s) infinite; }
+.mcard-frontend .mcard-fx b { --fc: #ffae3a; }
+.mcard-frontend .mcard-fx b:nth-child(even) { --fc: #ff4a1c; }
+.mcard-backend .mcard-fx b { --fc: rgba(130, 108, 190, .75); width: 22px; height: 22px; box-shadow: none; background: radial-gradient(circle, rgba(0, 0, 0, .9), rgba(80, 62, 120, .35) 60%, transparent 72%); }
+.mcard-fullstack .mcard-fx b { --fc: #d8b4fe; }
+.mcard-fullstack .mcard-fx b:nth-child(odd) { --fc: #ff3b3b; }
+
+/* ── Baris peringkat (statis, hemat): garis aksen + cahaya tipis ── */
+.mrow { border-color: color-mix(in srgb, var(--mc) 55%, transparent) !important; box-shadow: inset 3px 0 0 var(--mc), 0 0 26px -10px var(--mc); background-image: linear-gradient(90deg, color-mix(in srgb, var(--mc) 14%, transparent), transparent 45%); }
+
+/* ── Pil gelar Master ── */
+.mpill { display: inline-flex; align-items: center; gap: .25rem; border-radius: 9999px; font-weight: 700; border: 1px solid color-mix(in srgb, var(--mt) 55%, transparent); color: var(--mt); background: color-mix(in srgb, var(--mt) 14%, #0d0b14); box-shadow: 0 0 14px -4px var(--mt); }
+.mpill-fullstack { background: linear-gradient(100deg, rgba(176, 38, 255, .22), rgba(255, 42, 42, .18)); }
+.mpill-backend { background: linear-gradient(100deg, #000, #1b1726); border-color: rgba(185, 191, 204, .45); }
+
+@media print { .mcard::before, .mcard::after, .mcard-fx, .mf-aura, .mf-sp { display: none !important; } }
+@media (prefers-reduced-motion: reduce) { .mf-ring, .mf-ring2, .mf-aura, .mcard::before, .mcard::after { animation: none !important; } .mcard::before { background-position: 0 0; } }

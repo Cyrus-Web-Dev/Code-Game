@@ -7,7 +7,7 @@ import { useT } from "@/lib/i18n";
 const CONTACT = {
   instagram: "https://instagram.com/cyrus_van_helheim",
   email: "lordkeyaruga01@gmail.com",
-  whatsapp: "", // format internasional tanpa "+" atau "0" di depan
+  whatsapp: "https://wa.me/62812xxxxxxx", // format internasional tanpa "+" atau "0" di depan
 };
 
 export default function Contact() {

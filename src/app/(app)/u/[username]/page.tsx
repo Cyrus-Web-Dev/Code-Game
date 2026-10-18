@@ -3,10 +3,11 @@ import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Flame, Medal, Trophy, UserPlus, UserMinus, Check, X, Clock } from "lucide-react";
 import Avatar from "@/components/Avatar";
+import { MasterCard, MasterPill } from "@/components/Master";
 import TitleBadge from "@/components/TitleBadge";
 import LevelRanks from "@/components/LevelRanks";
 import GameHistory from "@/components/GameHistory";
-import { ACHIEVEMENTS, LEVEL_IDS, LEVELS, THEMES, anyTheme, TITLE_DEFS, earnedDevBadges, devBadgeRingColors, isPlayable, playLabel, type AchievementId } from "@/lib/config";
+import { ACHIEVEMENTS, LEVEL_IDS, LEVELS, THEMES, anyTheme, TITLE_DEFS, earnedDevBadges, activeMaster, isPlayable, playLabel, type AchievementId } from "@/lib/config";
 import { useLang, useT } from "@/lib/i18n";
 import { agoText } from "@/lib/time";
 import { api } from "@/lib/supabase";
@@ -21,7 +22,7 @@ export default function Player({ params }: { params: { username: string } }) {
   if (d.error) return <div className="grid gap-3"><Link href="/friends" className="inline-flex items-center gap-1 text-sm text-mint"><ArrowLeft size={16} />{t("pf_back")}</Link><p>{d.error === "USER_NOT_FOUND" ? t("pf_not_found") : t("err_" + d.error)}</p></div>;
 
   const ti = d.title, th = anyTheme(ti.level);
-  const devBadges = earnedDevBadges(d.stats ?? []);
+  const devBadges = earnedDevBadges(d.stats ?? []), master = activeMaster(devBadges, d.msel);
   async function act(body: Record<string, unknown>) {
     setBusy(true);
     const r: any = await api("/api/friends", body);
@@ -36,12 +37,13 @@ export default function Player({ params }: { params: { username: string } }) {
   return (
     <div className="grid gap-6">
       <Link href="/friends" className="inline-flex items-center gap-1 text-sm text-mint"><ArrowLeft size={16} />{t("pf_back")}</Link>
+      <MasterCard role={master}>
       <section className="relative overflow-hidden rounded-2xl border p-5 sm:p-7" style={{ borderColor: th.main + "88", background: `radial-gradient(120% 110% at 15% 0%, ${th.glow}55, rgba(24,21,38,.94) 62%)`, boxShadow: `0 0 70px -20px ${th.glow}` }}>
         <div className="grid items-center gap-6 md:grid-cols-[330px_1fr]">
           <TitleBadge tier={ti.tier} level={ti.level} tech={d.fav} size={330} label={ti.name} particles />
           <div>
             <div className="flex items-center gap-3">
-              <Avatar src={d.avatar} name={d.username} size={68} online={d.online == null ? null : d.online || !!d.playing} rings={devBadgeRingColors(devBadges)} />
+              <Avatar src={d.avatar} name={d.username} size={68} online={d.online == null ? null : d.online || !!d.playing} master={master} />
               <div>
                 <h1 className="flex flex-wrap items-center gap-2 font-display text-3xl">{d.username}{d.demo && <span className="chip chip-demo">{t("demo_tag")}</span>}</h1>
                 <p className="text-xs uppercase tracking-[0.25em]" style={{ color: th.main }}>{t("tier_" + ti.tier)}</p>
@@ -50,7 +52,7 @@ export default function Player({ params }: { params: { username: string } }) {
             </div>
             {devBadges.length > 0 && (
               <div className="mt-3 flex flex-wrap gap-2">
-                {devBadges.map((b) => <span key={b.role} className="rounded-full px-2.5 py-1 text-xs font-semibold" style={{ background: b.theme.main + "22", color: b.theme.main, border: `1px solid ${b.theme.main}66` }}>{b.name}</span>)}
+                {devBadges.map((b) => <MasterPill key={b.role} role={b.role} active={b.role === master} className="px-2.5 py-1 text-xs" />)}
               </div>
             )}
             <p className="mt-4 text-2xl font-extrabold leading-tight" style={{ color: th.main, textShadow: `0 0 24px ${th.glow}` }}>{ti.name}</p>
@@ -73,6 +75,7 @@ export default function Player({ params }: { params: { username: string } }) {
           </div>
         </div>
       </section>
+      </MasterCard>
 
       <section className="grid gap-3">
         <h2 className="font-display text-xl text-gold">{t("p_levelranks")}</h2>

@@ -56,6 +56,19 @@ penyimpanan tak perlu. Sekarang saran/kritik/bug diarahkan langsung ke Instagram
   (menghapus tabel + semua foto lama di bucket `feedback`). Instalasi baru dari `schema.sql` tidak lagi
   membuat tabel/bucket ini sama sekali.
 
+## 5) v2.3 — Peringkat God/Dev, bingkai Master mewah, perbaikan animasi
+- **Bug**: gelar legendaris di halaman Peringkat kaku. Penyebab: badge baris #4+ (mode `still`) menyuntikkan CSS `.bk *{animation:none}` yang bersifat GLOBAL
+  ke seluruh halaman sehingga ikut mematikan badge podium. Kini aturan itu hanya berlaku untuk SVG ber-class `still` (`src/lib/badge-svg.ts`).
+- **Peringkat**: tab baru Demi God / God / True God / Primordial God dan Frontend / Backend / Full Stack di `/leaderboard`.
+  Tidak perlu SQL baru untuk ini — `leaderboard_rows(p_tab)` sudah generik terhadap `user_stats.difficulty`.
+- **Profil** (`/profile` dan `/u/[username]`): kartu "Peringkat per tingkat" kini 3 kelompok (Klasik, God Mode, Developer Mode).
+- **Bingkai Master** (`src/components/Master.tsx`, `Avatar.tsx`, `globals.css`): murni CSS (conic-gradient + mask + transform), tanpa dependensi baru.
+  Merah membara menyala (Frontend), hitam pekat beraura gelap (Backend), ungu tajam + merah + hitam (Full Stack).
+  Dipakai di avatar, border kartu podium #1–#3, baris peringkat, kartu profil, teman, dan halaman Dev.
+- **Pilih bingkai**: halaman `/titles` punya bagian "Bingkai Master" (pakai salah satu yang sudah dibuka, otomatis, atau tanpa bingkai).
+  Server memverifikasi ulang syarat Master dari `user_stats` (`/api/master`).
+- **Migrasi wajib**: jalankan `supabase/migration-v2.3-master-frame.sql` (kolom `profiles.selected_master` + `msel` di leaderboard_rows/friends_overview/player_profile).
+
 ## Cara deploy
 1. Jalankan `supabase/migration-v2-godmode.sql` lalu `supabase/migration-v2.1-devmode.sql` di SQL Editor
    Supabase (aman diulang; instalasi baru cukup `schema.sql` yang sudah memuat kedua blok ini).
