@@ -1,0 +1,171 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body { @apply bg-ink text-paper font-sans antialiased; }
+
+/* ── Buttons ── */
+.btn {
+  @apply relative rounded-lg border border-line px-4 py-2.5 text-sm transition
+         hover:border-mint/80 hover:bg-panel/80
+         focus-visible:outline focus-visible:outline-2 focus-visible:outline-mint
+         disabled:opacity-40 disabled:pointer-events-none active:scale-[0.98];
+}
+.btn-primary {
+  @apply bg-mint text-ink border-mint font-semibold
+         hover:bg-paper hover:border-paper shadow-[0_0_20px_rgba(110,231,200,0.15)];
+}
+.btn-gold {
+  @apply border-gold/50 bg-gradient-to-b from-[#f6d58e] to-[#d9a94d] text-ink font-semibold
+         hover:brightness-110 shadow-[0_0_24px_rgba(245,196,81,0.2)];
+}
+.btn-ghost { @apply border-transparent bg-transparent hover:bg-panel/60 hover:border-line; }
+.btn-danger { @apply border-hot/40 text-hot hover:border-hot hover:bg-hot/10; }
+
+.input {
+  @apply w-full rounded-lg border border-line bg-panel px-3 py-2.5 text-sm
+         focus-visible:outline focus-visible:outline-2 focus-visible:outline-mint
+         placeholder:text-paper/40;
+}
+
+.shiki { @apply rounded-xl p-4 overflow-x-auto text-sm font-mono; background: #0f0d18 !important; }
+
+/* ── Cards ── */
+.card {
+  @apply rounded-xl border border-line bg-panel/80 p-4 transition
+         hover:border-mint/40 hover:bg-panel;
+}
+.card-glow {
+  @apply rounded-xl border border-gold/30 bg-panel/90 p-4
+         shadow-[0_0_40px_rgba(245,196,81,0.08)];
+}
+
+/* ── Skeleton ── */
+.skeleton {
+  @apply relative overflow-hidden rounded-lg bg-panel/80;
+}
+.skeleton::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ── Badge pulse ── */
+.badge-pulse {
+  filter: drop-shadow(0 0 12px var(--glow));
+  animation: pulse 3s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { filter: drop-shadow(0 0 8px var(--glow)); }
+  50% { filter: drop-shadow(0 0 22px var(--glow)); }
+}
+
+/* ── Game feedback ── */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+@keyframes pop-in {
+  0% { transform: scale(0.85); opacity: 0; }
+  60% { transform: scale(1.04); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes flash-green {
+  0% { box-shadow: 0 0 0 0 rgba(110,231,200,0.5); }
+  100% { box-shadow: 0 0 0 12px rgba(110,231,200,0); }
+}
+@keyframes flash-red {
+  0% { box-shadow: 0 0 0 0 rgba(255,92,138,0.5); }
+  100% { box-shadow: 0 0 0 12px rgba(255,92,138,0); }
+}
+.anim-shake { animation: shake 0.4s ease-in-out; }
+.anim-pop { animation: pop-in 0.35s cubic-bezier(.2,1.2,.4,1); }
+.flash-ok { animation: flash-green 0.6s ease-out; }
+.flash-bad { animation: flash-red 0.6s ease-out; }
+
+/* ── Progress ring / bars ── */
+.timer-bar {
+  @apply h-1.5 rounded-full bg-line overflow-hidden;
+}
+.timer-bar > div {
+  @apply h-full rounded-full transition-all duration-1000 ease-linear;
+}
+
+/* ── Option buttons ── */
+.opt-btn {
+  @apply relative rounded-xl border border-line bg-panel/60 px-4 py-3.5 text-left text-sm
+         transition-all duration-200
+         hover:border-mint/60 hover:bg-panel hover:translate-y-[-1px]
+         focus-visible:outline focus-visible:outline-2 focus-visible:outline-mint
+         disabled:pointer-events-none active:scale-[0.98];
+}
+.opt-btn.correct {
+  @apply border-mint bg-mint/15 text-mint shadow-[0_0_24px_rgba(110,231,200,0.15)];
+}
+.opt-btn.wrong {
+  @apply border-hot bg-hot/15 text-hot;
+}
+.opt-btn.dim { @apply opacity-40; }
+
+/* ── Streak flame ── */
+.streak-badge {
+  @apply inline-flex items-center gap-1.5 rounded-full border border-hot/40
+         bg-hot/10 px-3 py-1 text-xs font-semibold text-hot;
+}
+
+/* ── Onboarding overlay ── */
+.ob-backdrop {
+  @apply fixed inset-0 z-50 flex items-center justify-center bg-ink/90 backdrop-blur-sm p-4;
+}
+
+/* ── Print ── */
+@media print {
+  nav, .no-print { display: none !important; }
+  body { background: #fff; color: #000; }
+  .print-card { border: 1px solid #000 !important; background: #fff !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* ── Subtle grid background ── */
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(54,49,80,0.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(54,49,80,0.35) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ── v1.2: lencana & kartu bertema ── */
+.bk { max-width: 100%; height: auto; display: block; }
+.level-card {
+  position: relative; overflow: hidden; border-radius: 1rem; padding: 1rem;
+  border: 1px solid color-mix(in srgb, var(--c) 38%, transparent);
+  background: linear-gradient(110deg, color-mix(in srgb, var(--g) 24%, #1f1c2e) 0%, rgba(31,28,46,.88) 55%);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.level-card:hover { transform: translateY(-3px); border-color: var(--c); box-shadow: 0 10px 40px -10px var(--g); }
+.title-card {
+  position: relative; border-radius: 1rem; padding: 1rem; text-align: center;
+  border: 1px solid color-mix(in srgb, var(--c) 40%, transparent);
+  background: radial-gradient(120% 90% at 50% 0%, color-mix(in srgb, var(--g) 30%, transparent), rgba(31,28,46,.9) 70%);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.title-card:hover { transform: translateY(-3px); box-shadow: 0 14px 50px -12px var(--g); }
+.title-card.is-current { border-color: #f5c451; box-shadow: 0 0 0 1px #f5c451, 0 0 40px -6px rgba(245,196,81,.5); }
+.bar { height: .4rem; border-radius: 9999px; background: rgba(255,255,255,.08); overflow: hidden; }
+.bar > i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--c), color-mix(in srgb, var(--c) 40%, #fff)); transition: width .8s cubic-bezier(.2,.8,.2,1); }
+.text-shine { background: linear-gradient(100deg, #f5c451 20%, #fff6c9 45%, #f5c451 70%); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shine 5s linear infinite; }
+@keyframes shine { to { background-position: -200% center; } }
+.chip { display: inline-flex; align-items: center; gap: .3rem; border-radius: 9999px; padding: .15rem .6rem; font-size: .7rem; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.05); }
+.chip-demo { border-color: #f5c451; color: #f5c451; background: rgba(245,196,81,.1); font-weight: 700; letter-spacing: .1em; }
+.podium-1 { box-shadow: 0 0 60px -10px rgba(245,196,81,.55); }
+@media (prefers-reduced-motion: reduce) { .text-shine { animation: none; } .level-card, .title-card { transition: none; } }
