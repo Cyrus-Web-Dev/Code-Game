@@ -24,7 +24,6 @@
   (lencana, gelar, papan peringkat semua otomatis mendukung God Mode lewat fungsi generik di `config.ts`).
 - Halaman **Info** kini punya bagian "Tools Keamanan Siber": fungsi, cara pakai, dan tips secure-coding tiap tool.
 
-<<<<<<< HEAD
 ## 3) Developer Mode — Frontend / Backend / Full Stack
 Gelar jalur **skill**, terpisah total dari gelar penaklukan Easy–Primordial God: bisa dipakai **bertumpuk**
 (lebih dari satu sekaligus) dan tidak pernah menggantikan gelar utama yang sedang dipakai.
@@ -66,15 +65,6 @@ penyimpanan tak perlu. Sekarang saran/kritik/bug diarahkan langsung ke Instagram
 3. Untuk memperbanyak soal: God Mode → tambah entri tools di `scripts/security-tools.mjs` lalu jalankan
    ulang `node scripts/gen-god.mjs`; Developer Mode → tambah nama bahasa/framework di `scripts/dev-roles.mjs`
    lalu jalankan ulang `node scripts/gen-dev.mjs`.
-=======
-## Cara deploy
-1. Jalankan `supabase/migration-v2-godmode.sql` di SQL Editor Supabase (aman diulang; instalasi baru cukup
-   `schema.sql` yang sudah memuat blok ini).
-2. Soal God Mode sudah tersedia di `supabase/seed/god-1-demi_god.sql` s.d. `god-4-primordial_god.sql`
-   (±165 soal, hasil `scripts/gen-god.mjs`). Jalankan file-file ini di SQL Editor untuk mengisi bank soal.
-3. Untuk memperbanyak soal (maks 200/tingkat): tambah entri tools baru di `scripts/security-tools.mjs`,
-   lalu jalankan `node scripts/gen-god.mjs` ulang.
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
 4. `npm install && npm run build` seperti biasa.
 
 ## Catatan kualitas

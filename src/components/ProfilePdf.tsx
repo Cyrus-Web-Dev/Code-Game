@@ -1,10 +1,6 @@
 "use client";
 import { Document, Page, Text, View, Image, StyleSheet } from "@react-pdf/renderer";
-<<<<<<< HEAD
 import { LEVEL_IDS, LEVELS, TITLE_DEFS, THEMES, anyTheme, type Lang } from "@/lib/config";
-=======
-import { LEVEL_IDS, LEVELS, TITLE_DEFS, THEMES, type Lang } from "@/lib/config";
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
 import { dict } from "@/lib/i18n";
 const st = StyleSheet.create({
   page: { padding: 36, fontSize: 11, fontFamily: "Helvetica" },
@@ -14,11 +10,7 @@ const st = StyleSheet.create({
   row: { marginBottom: 8, padding: 8, border: "1 solid #999" }, b: { fontWeight: 700 },
 });
 export default function ProfilePdf({ d, lang }: { d: any; lang: Lang }) {
-<<<<<<< HEAD
   const T = dict[lang], p = d.profile, ti = d.title, col = anyTheme(ti.level).glow;
-=======
-  const T = dict[lang], p = d.profile, ti = d.title, col = THEMES[ti.level as keyof typeof THEMES].glow;
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   return (
     <Document title={`${T.p_title} ${p.username}`}>
       <Page size="A4" style={st.page}>

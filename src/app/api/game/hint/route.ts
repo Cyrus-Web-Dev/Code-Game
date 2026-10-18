@@ -1,10 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { admin, userId, fail, todayWIB, getLang } from "@/lib/server";
-<<<<<<< HEAD
 import { LEVELS, Level, PlayableLevel, isGodLevel, isDevRole } from "@/lib/config";
-=======
-import { LEVELS, Level, AnyLevel, isGodLevel } from "@/lib/config";
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
 
 export async function POST(req: NextRequest) {
   const uid = await userId(req); if (!uid) return fail("UNAUTHORIZED", 401);
@@ -16,16 +12,12 @@ export async function POST(req: NextRequest) {
   ]);
   if (!s || s.status !== "active") return fail("SESSION_INACTIVE");
   if (!row || row.answered_at) return fail("QUESTION_INACTIVE");
-<<<<<<< HEAD
   const lv = s.difficulty as PlayableLevel, en = getLang(req) === "en";
 
   // ── Developer Mode: hint tanpa batas, SATU tahap langsung (bukan berjenjang seperti God Mode). ──
   if (isDevRole(lv)) {
     return NextResponse.json({ hint: (en ? h?.hint_en ?? h?.hint : h?.hint) ?? "-", hints: -1, hintsUnlimited: true });
   }
-=======
-  const lv = s.difficulty as AnyLevel, en = getLang(req) === "en";
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
 
   // ── God Mode: hint tanpa batas, berjenjang (3 tahap) per soal — tujuan utamanya edukasi tools keamanan. ──
   if (isGodLevel(lv)) {

@@ -1,21 +1,13 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-<<<<<<< HEAD
 import { currentTitle, LEVEL_IDS, LEVELS, anyTheme, earnedDevBadges, devBadgeRingColors, type Current, type DevBadge } from "@/lib/config";
-=======
-import { currentTitle, LEVEL_IDS, LEVELS, anyTheme, type Current } from "@/lib/config";
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
 import { useT } from "@/lib/i18n";
 import { useUser } from "@/lib/store";
 import Link from "next/link";
 import TitleBadge from "@/components/TitleBadge";
 import Avatar from "@/components/Avatar";
-<<<<<<< HEAD
 type Row = { id: string; username: string; pts: number; demo: boolean; fav: string | null; avatar: string | null; title: Current; devBadges: DevBadge[] };
-=======
-type Row = { id: string; username: string; pts: number; demo: boolean; fav: string | null; avatar: string | null; title: Current };
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
 
 export default function Leaderboard() {
   const t = useT(), me = useUser((s) => s.user);
@@ -27,10 +19,7 @@ export default function Leaderboard() {
     setRows(((data ?? []) as any[]).map((r) => ({
       id: r.id, pts: r.pts, username: r.username ?? "?", demo: !!r.demo, fav: r.fav ?? null, avatar: r.avatar ?? null,
       title: currentTitle(r.starter ?? "hello_world_graduate", r.stats ?? [], r.sel),
-<<<<<<< HEAD
       devBadges: earnedDevBadges(r.stats ?? []),
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
     })));
     setReady(true);
   }, [tab]);
@@ -84,12 +73,8 @@ export default function Leaderboard() {
               <div key={r.id} className={`title-card ${first ? "podium-1" : ""} ${["sm:order-2", "sm:order-1", "sm:order-3"][i]}`} style={{ ["--c" as string]: first ? "#f5c451" : th.main, ["--g" as string]: first ? "#f5c451" : th.glow }}>
                 <div className="text-3xl font-black" style={{ color: first ? "#f5c451" : i === 1 ? "#d1d5db" : "#d08a4b" }}>#{i + 1}</div>
                 <TitleBadge tier={r.title.tier} level={r.title.level} tech={r.fav} size={first ? 220 : 170} label={r.title.name} />
-<<<<<<< HEAD
                 <div className="mt-1 flex items-center justify-center gap-2.5 text-lg"><Avatar src={r.avatar} name={r.username} size={first ? 48 : 42} rings={devBadgeRingColors(r.devBadges)} /><Name r={r} /></div>
                 {r.devBadges.length > 0 && <div className="mt-1 flex flex-wrap justify-center gap-1">{r.devBadges.map((b) => <span key={b.role} className="rounded-full px-1.5 py-0.5 text-[9px] font-bold" style={{ background: b.theme.main + "26", color: b.theme.main }}>{b.name}</span>)}</div>}
-=======
-                <div className="mt-1 flex items-center justify-center gap-2.5 text-lg"><Avatar src={r.avatar} name={r.username} size={first ? 48 : 42} /><Name r={r} /></div>
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
                 <p className="text-xs" style={{ color: th.main }}>{r.title.name}</p>
                 <p className="mt-1 font-mono text-xl text-gold">{r.pts} <span className="text-xs text-paper/50">{t("points")}</span></p>
               </div>
@@ -104,11 +89,7 @@ export default function Leaderboard() {
             <li key={r.id} className={`grid grid-cols-[2rem_64px_1fr_auto] items-center gap-3 rounded-xl border px-3 py-1.5 ${r.id === me?.id ? "border-gold bg-gold/10" : "border-line bg-panel/80"}`}>
               <span className="font-mono text-paper/60">{i + 4}</span>
               <TitleBadge tier={r.title.tier} level={r.title.level} tech={r.fav} size={64} label={r.title.name} still={r.title.tier !== "legendary"} />
-<<<<<<< HEAD
               <div className="flex min-w-0 items-center gap-2.5"><Avatar src={r.avatar} name={r.username} size={38} rings={devBadgeRingColors(r.devBadges)} /><div className="min-w-0"><div className="truncate"><Name r={r} /></div><div className="truncate text-xs" style={{ color: th.main }}>{r.title.name}</div>{r.devBadges.length > 0 && <div className="mt-0.5 flex flex-wrap gap-1">{r.devBadges.map((b) => <span key={b.role} className="rounded-full px-1.5 py-0.5 text-[9px] font-bold" style={{ background: b.theme.main + "26", color: b.theme.main }}>{b.name}</span>)}</div>}</div></div>
-=======
-              <div className="flex min-w-0 items-center gap-2.5"><Avatar src={r.avatar} name={r.username} size={38} /><div className="min-w-0"><div className="truncate"><Name r={r} /></div><div className="truncate text-xs" style={{ color: th.main }}>{r.title.name}</div></div></div>
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
               <span className="font-mono text-gold">{r.pts}</span>
             </li>
           );

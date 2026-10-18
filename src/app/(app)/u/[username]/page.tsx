@@ -6,11 +6,7 @@ import Avatar from "@/components/Avatar";
 import TitleBadge from "@/components/TitleBadge";
 import LevelRanks from "@/components/LevelRanks";
 import GameHistory from "@/components/GameHistory";
-<<<<<<< HEAD
 import { ACHIEVEMENTS, LEVEL_IDS, LEVELS, THEMES, anyTheme, TITLE_DEFS, earnedDevBadges, devBadgeRingColors, isPlayable, playLabel, type AchievementId } from "@/lib/config";
-=======
-import { ACHIEVEMENTS, LEVEL_IDS, LEVELS, THEMES, TITLE_DEFS, type AchievementId, type Level } from "@/lib/config";
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
 import { useLang, useT } from "@/lib/i18n";
 import { agoText } from "@/lib/time";
 import { api } from "@/lib/supabase";
@@ -24,12 +20,8 @@ export default function Player({ params }: { params: { username: string } }) {
   if (!d) return <div className="grid gap-4"><div className="skeleton h-72 w-full" /><div className="skeleton h-32 w-full" /></div>;
   if (d.error) return <div className="grid gap-3"><Link href="/friends" className="inline-flex items-center gap-1 text-sm text-mint"><ArrowLeft size={16} />{t("pf_back")}</Link><p>{d.error === "USER_NOT_FOUND" ? t("pf_not_found") : t("err_" + d.error)}</p></div>;
 
-<<<<<<< HEAD
   const ti = d.title, th = anyTheme(ti.level);
   const devBadges = earnedDevBadges(d.stats ?? []);
-=======
-  const ti = d.title, th = THEMES[ti.level as Level];
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   async function act(body: Record<string, unknown>) {
     setBusy(true);
     const r: any = await api("/api/friends", body);
@@ -37,11 +29,7 @@ export default function Player({ params }: { params: { username: string } }) {
     setMsg(r?.error ? t("err_" + r.error) : t("fr_r_" + r.result));
     load();
   }
-<<<<<<< HEAD
   const status = d.playing ? t("fr_playing", { lvl: isPlayable(d.playing) ? playLabel(d.playing) : d.playing }) : d.online ? t("fr_online") : d.seen_ago == null ? t("fr_offline_never") : t("fr_offline", { ago: agoText(d.seen_ago, t) });
-=======
-  const status = d.playing ? t("fr_playing", { lvl: LEVELS[d.playing as Level]?.label ?? d.playing }) : d.online ? t("fr_online") : d.seen_ago == null ? t("fr_offline_never") : t("fr_offline", { ago: agoText(d.seen_ago, t) });
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   const joined = new Date(d.joined).toLocaleDateString(lang === "id" ? "id-ID" : "en-US", { year: "numeric", month: "long" });
   const Chip = ({ k, v }: { k: string; v: string }) => <span className="chip"><span className="text-paper/50">{k}</span><b>{v || "-"}</b></span>;
 
@@ -53,25 +41,18 @@ export default function Player({ params }: { params: { username: string } }) {
           <TitleBadge tier={ti.tier} level={ti.level} tech={d.fav} size={330} label={ti.name} particles />
           <div>
             <div className="flex items-center gap-3">
-<<<<<<< HEAD
               <Avatar src={d.avatar} name={d.username} size={68} online={d.online == null ? null : d.online || !!d.playing} rings={devBadgeRingColors(devBadges)} />
-=======
-              <Avatar src={d.avatar} name={d.username} size={68} online={d.online == null ? null : d.online || !!d.playing} />
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
               <div>
                 <h1 className="flex flex-wrap items-center gap-2 font-display text-3xl">{d.username}{d.demo && <span className="chip chip-demo">{t("demo_tag")}</span>}</h1>
                 <p className="text-xs uppercase tracking-[0.25em]" style={{ color: th.main }}>{t("tier_" + ti.tier)}</p>
                 {d.online != null && <p className={`text-xs ${d.playing ? "text-gold" : d.online ? "text-mint" : "text-paper/50"}`}>{status}</p>}
               </div>
             </div>
-<<<<<<< HEAD
             {devBadges.length > 0 && (
               <div className="mt-3 flex flex-wrap gap-2">
                 {devBadges.map((b) => <span key={b.role} className="rounded-full px-2.5 py-1 text-xs font-semibold" style={{ background: b.theme.main + "22", color: b.theme.main, border: `1px solid ${b.theme.main}66` }}>{b.name}</span>)}
               </div>
             )}
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
             <p className="mt-4 text-2xl font-extrabold leading-tight" style={{ color: th.main, textShadow: `0 0 24px ${th.glow}` }}>{ti.name}</p>
             <p className="mt-1 text-sm text-paper/75">{ti.desc[lang]}</p>
             <div className="mt-4 flex flex-wrap gap-2"><Chip k={t("p_fav_lang")} v={d.fav} /><Chip k={t("pf_joined")} v={joined} /></div>

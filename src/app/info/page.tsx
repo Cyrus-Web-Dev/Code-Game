@@ -13,11 +13,7 @@ type Item = { name: string; year: number; level: string | null; note: string; no
 type Detail = { kind: Kind; run?: string; site?: string; ex?: string; hl?: string };
 const ERAS: [number, number][] = [[0, 1969], [1970, 1979], [1980, 1989], [1990, 1999], [2000, 2009], [2010, 9999]];
 type L2 = { id: string; en: string };
-<<<<<<< HEAD
 type Tool = { name: string; tier: GodLevel; cat: string; purpose: L2; use: L2; cmd: string; tip: L2; site: string };
-=======
-type Tool = { name: string; tier: GodLevel; cat: string; purpose: L2; use: L2; tip: L2; site: string };
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
 
 export default function Info() {
   const t = useT(), lang = useLang((s) => s.lang), items = data as Item[];
@@ -132,10 +128,7 @@ export default function Info() {
                       {isOpen && (
                         <div className="grid gap-3 border-t border-line/70 p-3 animate-in fade-in duration-300">
                           <div><h3 className="mb-1 text-sm font-semibold" style={{ color: th.main }}>{t("i_sec_use")}</h3><p className="text-sm text-paper/85">{i.use[lang]}</p></div>
-<<<<<<< HEAD
                           <div><h3 className="mb-1 text-sm font-semibold text-gold">{t("i_sec_example")}</h3><CodeBlock code={i.cmd} lang="bash" /></div>
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
                           <div><h3 className="mb-1 text-sm font-semibold text-gold">{t("i_sec_tip")}</h3><p className="text-sm text-paper/85">{i.tip[lang]}</p></div>
                           <a href={`https://${i.site.replace(/^https?:\/\//, "")}`} target="_blank" rel="noopener noreferrer" className="inline-flex w-fit items-center gap-1 text-sm text-mint underline">{t("i_site")}: {i.site.replace(/^https?:\/\//, "")}<ExternalLink size={12} /></a>
                         </div>

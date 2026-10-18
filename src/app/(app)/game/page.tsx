@@ -118,7 +118,6 @@ export default function Game() {
         </div>
       </Link>
 
-<<<<<<< HEAD
       {/* Developer Mode CTA */}
       <Link href="/dev" className="card flex items-center gap-3 border-red-500/30 hover:border-red-400/60 no-underline text-paper">
         <span className="text-2xl">🧑‍💻</span>
@@ -128,8 +127,6 @@ export default function Game() {
         </div>
       </Link>
 
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
       {/* Review wrong answers */}
       <Link href="/review" className="card flex items-center gap-3 hover:border-mint/50 no-underline text-paper">
         <BookOpen size={20} className="text-mint" />

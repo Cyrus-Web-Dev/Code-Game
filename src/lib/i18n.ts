@@ -3,11 +3,7 @@ import type { Lang } from "./config";
 const D = {
   id: {
     app: "Kode Tebak", tagline: "Tebak bahasa pemrograman dari potongan kode.", back: "Kembali", loading: "Memuat…", save: "Simpan", saved: "Tersimpan.", points: "poin", rank: "Peringkat",
-<<<<<<< HEAD
     m_start: "Mulai", m_info: "Informasi", m_settings: "Pengaturan Bahasa", m_contact: "Kontak Developer", m_logout: "Keluar",
-=======
-    m_start: "Mulai", m_info: "Informasi", m_settings: "Pengaturan Bahasa", m_feedback: "Saran & Kritik", m_logout: "Keluar",
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
     nav_friends: "Teman", fr_title: "Teman", fr_tab_list: "Teman game", fr_tab_req: "Permintaan", fr_tab_add: "Tambah", fr_count: "Teman {n}/100", fr_empty: "Belum ada teman. Buka tab Tambah untuk mencari pemain.", fr_no_req: "Tidak ada permintaan.", fr_incoming: "Permintaan masuk", fr_outgoing: "Permintaan terkirim",
     fr_search_ph: "Cari nama pengguna (min. 2 huruf)", fr_search: "Cari", fr_no_results: "Pemain tidak ditemukan.", fr_add: "Tambah teman", fr_pending: "Menunggu", fr_accept: "Terima", fr_decline: "Tolak", fr_cancel: "Batalkan", fr_remove: "Hapus teman", fr_remove_ask: "Hapus {name} dari daftar teman?", fr_view: "Lihat profil", fr_is_friend: "Berteman",
     fr_online: "Online", fr_playing: "Sedang bermain {lvl}", fr_offline: "Offline · {ago}", fr_offline_never: "Offline", fr_live: "Status diperbarui otomatis tiap 30 detik.",
@@ -18,10 +14,6 @@ const D = {
     i_click_hint: "Klik kartu untuk melihat contoh kode, cara menjalankan, dan cara mempelajarinya.", i_kind: "Jenis", i_example: "Contoh kode", i_run: "Cara menjalankan / memakai", i_run_none: "Ikuti panduan instalasi di situs resmi.", i_learn: "Cara mempelajarinya", i_site: "Situs resmi", i_tip: "Kata kunci pencarian", i_copy: "Salin", i_copied: "Tersalin", i_loading: "Memuat detail…",
     p_levelranks: "Peringkat per tingkat", lr_of: "dari {n} pemain", lr_none: "Belum ada poin", h_title: "Riwayat permainan", h_show: "Tampilkan riwayat", h_more: "Muat lebih banyak", h_empty: "Belum ada permainan yang selesai.", h_friends_only: "Riwayat permainan hanya terlihat oleh teman.", mode_normal: "Biasa", mode_maraton: "Maraton", mode_speedrun: "Speedrun", mode_daily: "Harian", h_finished: "Selesai", h_quit: "Keluar", h_correct: "benar", h_dur: "durasi",
     late_correct: "Jawabanmu benar, tetapi terkirim setelah waktu habis.", t_rule_leg: "Syarat setiap tingkat: minimal 150 soal dan akurasi ≥ 85% (dihitung dari semua jawabanmu di tingkat itu).", t_gap: "Butuh sekitar {n} jawaban benar berturut-turut lagi.", t_gap_ok: "Syarat jumlah soal dan akurasi sudah terpenuhi.", t_sepuh_how: "Cara membuka SEPUH CODING: jadikan kelima tingkat (Easy, Normal, Hard, Extreme, dan Hell) legendaris.", t_chk_title: "Syarat SEPUH CODING per tingkat", t_chk_done: "Sudah legendaris", t_chk_row: "{n}/150 soal · akurasi {a}%", t_chk_hell: "Hell juga harus legendaris: 150 soal dan akurasi ≥ 85% di tingkat Hell.",
-<<<<<<< HEAD
-=======
-    f_photo: "Lampirkan foto (opsional, maks. 3)", f_photo_hint: "Untuk laporan bug, lampirkan tangkapan layar agar lebih mudah ditelusuri.", f_photo_remove: "Hapus foto", f_photo_bad: "Berkas harus berupa gambar (JPG, PNG, atau WebP).", f_photo_max: "Maksimal 3 foto.", f_sent_photos: "Terima kasih! Pesan dan {n} foto sudah terkirim.", f_sent_nophoto: "Pesanmu terkirim, tetapi foto gagal disimpan. Coba kirim ulang fotonya.", err_INVALID_IMAGE: "Foto tidak valid atau terlalu besar.",
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
     nav_titles: "Gelar", t_title: "Koleksi gelar", t_desc: "Semua gelar yang bisa diraih. Gelar yang masih terkunci tampil redup.", t_hover: "Arahkan kursor ke lencana legendaris untuk melihat efek partikelnya.", t_starter: "Gelar awal", t_earned: "Diraih", t_locked: "Terkunci", t_current: "Gelar saat ini", t_other: "Tidak dipakai",
     t_req_std: "Min. 50 soal dengan akurasi ≥ 60% (kamu: {n} soal, akurasi {a}%)", t_req_leg: "Min. 150 soal dengan akurasi ≥ 85% (kamu: {n} soal, akurasi {a}%)", t_req_sepuh: "Semua lima tingkat harus legendaris (kamu: {k}/5)", p_all_titles: "Lihat semua gelar",
     land_showcase: "Raih gelar legendaris ini", t_progress: "Progres", t_sepuh_banner: "SEPUH CODING: {k}/5 tingkat legendaris", p_ach: "Pencapaian", p_next: "Progres gelar", p_prog_std: "Standar {n}/50", p_prog_leg: "Legendaris {n}/150", demo_tag: "DEMO", p_demo_note: "Akun demo: datanya dibuat otomatis sebagai contoh.", g_legend: "Gelar legendaris", lb_you: "Kamu",
@@ -44,31 +36,20 @@ const D = {
     god_rule_time: "⏱ Waktu per soal lebih lega (2–5 menit) — ini bukan lomba kecepatan, tapi edukasi.", god_rule_hint: "💡 Hint tanpa batas & berjenjang (3 tahap): definisi → cara teknis → tips secure-coding dunia nyata.", god_rule_modes: "🎮 2 cara main: Biasa (10 soal) dan Maraton (100 soal).",
     streak_bonus_short: "bonus beruntun (min. {n}x)", minutes_short: "mnt",
     god_pure_clear: "Selesai tanpa hint — gelar menyala penuh!", god_used_hint: "Selesai dengan bantuan {n}x hint.",
-<<<<<<< HEAD
     nav_dev: "Developer Mode", dev_title: "Developer Mode", dev_subtitle: "Pilih peranmu: Frontend, Backend, atau Full Stack — soal yang keluar sesuai pekerjaan sungguhan di peran itu.",
     dev_your_badges: "Gelar Master kamu", dev_rule_scope: "🧩 Soal menyesuaikan peran: Frontend soal UI/framework klien, Backend soal server/API/basis data, Full Stack campuran keduanya.",
     dev_rule_score: "🏆 Akurasi ≥{a}% dengan minimal {n} soal di satu peran → gelar Master, bisa dipakai BERTUMPUK dan tidak mengganti gelar Easy–God Mode.", dev_rule_stack: "🎮 2 cara main: Biasa (10 soal) dan Maraton (100 soal), waktu 2 menit/soal, hint tanpa batas.",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
     over: "Game over", done: "Sesi selesai", again: "Main lagi", choose: "Pilih tingkat", saved_profile: "Skor sudah tersimpan di profilmu.", loading_q: "memuat soal…", need_login: "Kamu perlu masuk untuk bermain.",
     lb_title: "Peringkat", lb_global: "Global", lb_empty: "Belum ada pemain.", lb_live: "Peringkat dari data pemain sungguhan; diperbarui berkala.",
     p_title: "Profil", p_role: "Status", p_fav_lang: "Bahasa favorit", p_fav_fw: "Framework favorit", p_skill: "Pemahaman", p_stats: "Statistik per tingkat", p_games: "game", p_questions: "soal", p_accuracy: "akurasi",
     p_locked: "Belum diraih. Selesaikan 50 soal di tingkat ini ({n}/50).", p_edit: "Ubah profil", p_pdf: "Ekspor PDF", p_pdf_wait: "Menyiapkan PDF…", p_photo: "Foto (maks. 200 KB)", p_hints: "Sisa hint hari ini", p_title_label: "Gelar saat ini", p_name: "Nama",
     tier_starter: "Gelar awal", tier_standard: "Gelar standar", tier_legendary: "Gelar legendaris",
     i_title: "Ensiklopedia bahasa pemrograman", i_sub: "{n} bahasa dan framework diurutkan menurut tahun. {g} di antaranya sudah menjadi soal. Jumlah bahasa yang pernah dibuat mencapai ribuan, jadi daftar ini berisi yang paling berpengaruh dan terus bertambah.",
-<<<<<<< HEAD
     i_sec_title: "Tools Keamanan Siber", i_sec_sub: "{n} tools keamanan website nyata yang dipakai pentester, red team, dan blue team sungguhan — bukan cuma bahasa pemrograman, tapi cara websitemu diserang dan dipertahankan.", i_sec_use: "Cara pakai", i_sec_example: "Contoh perintah", i_sec_tip: "Tips secure-coding dunia nyata",
     i_search: "Cari nama atau deskripsi", i_all: "Semua", i_extra: "Hanya ensiklopedia", i_none: "Tidak ada hasil.",
     era0: "Era perintis (sebelum 1970)", era1: "1970-an", era2: "1980-an", era3: "1990-an", era4: "2000-an", era5: "2010-an sampai sekarang",
     s_title: "Pengaturan bahasa", s_desc: "Bahasa ini dipakai untuk antarmuka dan untuk teks soal (pertanyaan, penjelasan, hint, dan pilihan jawaban).", s_id: "Bahasa Indonesia", s_en: "English", s_active: "Aktif",
     c_title: "Kontak Developer", c_desc: "Ada saran, kritik, atau nemu bug? Langsung hubungi lewat salah satu kanal di bawah ini.", c_email: "Email", c_note: "Fitur Saran & Kritik dalam-aplikasi sudah tidak tersedia — silakan kontak langsung lewat tautan di atas.",
-=======
-    i_sec_title: "Tools Keamanan Siber", i_sec_sub: "{n} tools keamanan website nyata yang dipakai pentester, red team, dan blue team sungguhan — bukan cuma bahasa pemrograman, tapi cara websitemu diserang dan dipertahankan.", i_sec_use: "Cara pakai", i_sec_tip: "Tips secure-coding dunia nyata",
-    i_search: "Cari nama atau deskripsi", i_all: "Semua", i_extra: "Hanya ensiklopedia", i_none: "Tidak ada hasil.",
-    era0: "Era perintis (sebelum 1970)", era1: "1970-an", era2: "1980-an", era3: "1990-an", era4: "2000-an", era5: "2010-an sampai sekarang",
-    s_title: "Pengaturan bahasa", s_desc: "Bahasa ini dipakai untuk antarmuka dan untuk teks soal (pertanyaan, penjelasan, hint, dan pilihan jawaban).", s_id: "Bahasa Indonesia", s_en: "English", s_active: "Aktif",
-    f_title: "Saran & Kritik", f_desc: "Pesanmu langsung dikirim ke developer.", f_kind: "Jenis", f_saran: "Saran", f_kritik: "Kritik", f_bug: "Laporan bug", f_msg: "Pesan (5-2000 karakter)", f_send: "Kirim", f_sent: "Terima kasih! Pesanmu sudah terkirim.", f_login: "Masuk dulu untuk mengirim saran dan kritik.",
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
     err_RATE_LIMITED: "Terlalu banyak percobaan. Coba lagi nanti.", err_DAILY_DONE: "Daily Challenge hari ini sudah selesai. Kembali besok!",
     g_subtitle: "Pilih tingkat, mode, atau tantangan harian.", g_speedrun: "Speedrun (15 dtk)",
     daily_title: "Daily Challenge", daily_desc: "10 soal acak tingkat hari ini. Hanya sekali per hari.", daily_play: "Mainkan", daily_done: "Selesai hari ini ✓",
@@ -84,11 +65,7 @@ const D = {
   },
   en: {
     app: "Code Guess", tagline: "Guess the programming language from a code snippet.", back: "Back", loading: "Loading…", save: "Save", saved: "Saved.", points: "pts", rank: "Rank",
-<<<<<<< HEAD
     m_start: "Start", m_info: "Information", m_settings: "Language Settings", m_contact: "Contact Developer", m_logout: "Log out",
-=======
-    m_start: "Start", m_info: "Information", m_settings: "Language Settings", m_feedback: "Feedback", m_logout: "Log out",
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
     nav_friends: "Friends", fr_title: "Friends", fr_tab_list: "Game friends", fr_tab_req: "Requests", fr_tab_add: "Add", fr_count: "Friends {n}/100", fr_empty: "No friends yet. Open the Add tab to find players.", fr_no_req: "No requests.", fr_incoming: "Incoming requests", fr_outgoing: "Sent requests",
     fr_search_ph: "Search username (min. 2 letters)", fr_search: "Search", fr_no_results: "No players found.", fr_add: "Add friend", fr_pending: "Pending", fr_accept: "Accept", fr_decline: "Decline", fr_cancel: "Cancel", fr_remove: "Remove friend", fr_remove_ask: "Remove {name} from your friends?", fr_view: "View profile", fr_is_friend: "Friends",
     fr_online: "Online", fr_playing: "Playing {lvl}", fr_offline: "Offline · {ago}", fr_offline_never: "Offline", fr_live: "Status refreshes automatically every 30 seconds.",
@@ -99,10 +76,6 @@ const D = {
     i_click_hint: "Click a card for a code example, how to run it, and how to learn it.", i_kind: "Type", i_example: "Code example", i_run: "How to run / use it", i_run_none: "Follow the installation guide on the official site.", i_learn: "How to learn it", i_site: "Official site", i_tip: "Search keywords", i_copy: "Copy", i_copied: "Copied", i_loading: "Loading details…",
     p_levelranks: "Rank per level", lr_of: "of {n} players", lr_none: "No points yet", h_title: "Game history", h_show: "Show history", h_more: "Load more", h_empty: "No finished games yet.", h_friends_only: "Game history is only visible to friends.", mode_normal: "Standard", mode_maraton: "Marathon", mode_speedrun: "Speedrun", mode_daily: "Daily", h_finished: "Finished", h_quit: "Quit", h_correct: "correct", h_dur: "time",
     late_correct: "Your answer was right, but it arrived after time ran out.", t_rule_leg: "Rule for every level: at least 150 questions and accuracy ≥ 85% (counted over all your answers in that level).", t_gap: "You need about {n} more correct answers in a row.", t_gap_ok: "The question count and accuracy requirements are met.", t_sepuh_how: "How to unlock SEPUH CODING: make all five levels (Easy, Normal, Hard, Extreme, and Hell) legendary.", t_chk_title: "SEPUH CODING requirements per level", t_chk_done: "Already legendary", t_chk_row: "{n}/150 questions · {a}% accuracy", t_chk_hell: "Hell must be legendary too: 150 questions and accuracy ≥ 85% in Hell.",
-<<<<<<< HEAD
-=======
-    f_photo: "Attach photos (optional, max. 3)", f_photo_hint: "For bug reports, attach a screenshot so it is easier to trace.", f_photo_remove: "Remove photo", f_photo_bad: "The file must be an image (JPG, PNG, or WebP).", f_photo_max: "Maximum 3 photos.", f_sent_photos: "Thank you! Your message and {n} photo(s) were sent.", f_sent_nophoto: "Your message was sent, but the photos could not be saved. Please try sending the photos again.", err_INVALID_IMAGE: "The photo is invalid or too large.",
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
     nav_titles: "Titles", t_title: "Title collection", t_desc: "Every title you can earn. Locked titles appear dimmed.", t_hover: "Hover a legendary badge to see its particle effect.", t_starter: "Starter titles", t_earned: "Earned", t_locked: "Locked", t_current: "Current title", t_other: "Not assigned",
     t_req_std: "At least 50 questions with accuracy ≥ 60% (you: {n} questions, {a}% accuracy)", t_req_leg: "At least 150 questions with accuracy ≥ 85% (you: {n} questions, {a}% accuracy)", t_req_sepuh: "All five levels must be legendary (you: {k}/5)", p_all_titles: "View all titles",
     land_showcase: "Earn these legendary titles", t_progress: "Progress", t_sepuh_banner: "SEPUH CODING: {k}/5 legendary levels", p_ach: "Achievements", p_next: "Title progress", p_prog_std: "Standard {n}/50", p_prog_leg: "Legendary {n}/150", demo_tag: "DEMO", p_demo_note: "Demo account: data was seeded as a showcase.", g_legend: "Legendary title", lb_you: "You",
@@ -125,31 +98,20 @@ const D = {
     god_rule_time: "⏱ More time per question (2–5 min) — this isn't a speed round, it's education.", god_rule_hint: "💡 Unlimited, staged hints (3 steps): definition → technical how-to → real-world secure-coding tip.", god_rule_modes: "🎮 2 ways to play: Normal (10 questions) and Marathon (100 questions).",
     streak_bonus_short: "streak bonus (min. {n}x)", minutes_short: "min",
     god_pure_clear: "Finished without any hint — fully lit-up title!", god_used_hint: "Finished with {n}x hint used.",
-<<<<<<< HEAD
     nav_dev: "Developer Mode", dev_title: "Developer Mode", dev_subtitle: "Pick your role: Frontend, Backend, or Full Stack — questions match real work in that role.",
     dev_your_badges: "Your Master badges", dev_rule_scope: "🧩 Questions match the role: Frontend is UI/client-framework, Backend is server/API/database, Full Stack mixes both.",
     dev_rule_score: "🏆 ≥{a}% accuracy with at least {n} questions in one role → Master badge, STACKS with others and never replaces your Easy–God Mode title.", dev_rule_stack: "🎮 2 ways to play: Normal (10 questions) and Marathon (100 questions), 2 min/question, unlimited hints.",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
     over: "Game over", done: "Session complete", again: "Play again", choose: "Choose level", saved_profile: "Your score has been saved to your profile.", loading_q: "loading question…", need_login: "You need to log in to play.",
     lb_title: "Leaderboard", lb_global: "Global", lb_empty: "No players yet.", lb_live: "Rankings from real player data; updates periodically.",
     p_title: "Profile", p_role: "Role", p_fav_lang: "Favorite language", p_fav_fw: "Favorite framework", p_skill: "Skill level", p_stats: "Stats per level", p_games: "games", p_questions: "questions", p_accuracy: "accuracy",
     p_locked: "Not earned yet. Answer 50 questions in this level ({n}/50).", p_edit: "Edit profile", p_pdf: "Export PDF", p_pdf_wait: "Preparing PDF…", p_photo: "Photo (max 200 KB)", p_hints: "Hints left today", p_title_label: "Current title", p_name: "Name",
     tier_starter: "Starter title", tier_standard: "Standard title", tier_legendary: "Legendary title",
     i_title: "Programming language encyclopedia", i_sub: "{n} languages and frameworks sorted by year. {g} of them already appear as questions. Thousands of languages have been created, so this list covers the most influential and keeps growing.",
-<<<<<<< HEAD
     i_sec_title: "Cybersecurity Tools", i_sec_sub: "{n} real web-security tools used by actual pentesters, red teamers, and blue teamers — not just programming languages, but how your website gets attacked and defended.", i_sec_use: "How to use it", i_sec_example: "Example command", i_sec_tip: "Real-world secure-coding tip",
     i_search: "Search name or description", i_all: "All", i_extra: "Encyclopedia only", i_none: "No results.",
     era0: "Pioneer era (before 1970)", era1: "1970s", era2: "1980s", era3: "1990s", era4: "2000s", era5: "2010s to present",
     s_title: "Language settings", s_desc: "This language is used for the interface and the question text (prompts, explanations, hints, and answer options).", s_id: "Bahasa Indonesia", s_en: "English", s_active: "Active",
     c_title: "Contact Developer", c_desc: "Got a suggestion, criticism, or found a bug? Reach out directly through one of the channels below.", c_email: "Email", c_note: "The in-app Feedback feature is no longer available — please reach out directly via the links above.",
-=======
-    i_sec_title: "Cybersecurity Tools", i_sec_sub: "{n} real web-security tools used by actual pentesters, red teamers, and blue teamers — not just programming languages, but how your website gets attacked and defended.", i_sec_use: "How to use it", i_sec_tip: "Real-world secure-coding tip",
-    i_search: "Search name or description", i_all: "All", i_extra: "Encyclopedia only", i_none: "No results.",
-    era0: "Pioneer era (before 1970)", era1: "1970s", era2: "1980s", era3: "1990s", era4: "2000s", era5: "2010s to present",
-    s_title: "Language settings", s_desc: "This language is used for the interface and the question text (prompts, explanations, hints, and answer options).", s_id: "Bahasa Indonesia", s_en: "English", s_active: "Active",
-    f_title: "Feedback", f_desc: "Your message goes straight to the developer.", f_kind: "Type", f_saran: "Suggestion", f_kritik: "Criticism", f_bug: "Bug report", f_msg: "Message (5-2000 characters)", f_send: "Send", f_sent: "Thank you! Your message was sent.", f_login: "Log in first to send feedback.",
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
     err_RATE_LIMITED: "Too many attempts. Try again later.", err_DAILY_DONE: "Today's Daily Challenge is done. Come back tomorrow!",
     g_subtitle: "Pick a level, mode, or the daily challenge.", g_speedrun: "Speedrun (15s)",
     daily_title: "Daily Challenge", daily_desc: "10 random questions for today's level. Once per day.", daily_play: "Play", daily_done: "Done for today ✓",

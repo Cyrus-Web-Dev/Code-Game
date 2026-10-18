@@ -1,10 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { admin, userId, fail, bumpStats, getLang, recordWrong, clearWrong, grantAchievements } from "@/lib/server";
-<<<<<<< HEAD
 import { TIME_TOLERANCE, SPEEDRUN_TIME, PlayableLevel, anyLevelConfig } from "@/lib/config";
-=======
-import { TIME_TOLERANCE, SPEEDRUN_TIME, AnyLevel, anyLevelConfig } from "@/lib/config";
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
 import { getNextQuestionState, graceFor } from "@/lib/game-session";
 
 export async function POST(req: NextRequest) {
@@ -23,11 +19,7 @@ export async function POST(req: NextRequest) {
   if (!row || row.answered_at) return fail("ALREADY_ANSWERED");
 
   const mode = (s as { mode?: string }).mode;
-<<<<<<< HEAD
   const lv = s.difficulty as PlayableLevel;
-=======
-  const lv = s.difficulty as AnyLevel;
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   const cfg = anyLevelConfig(lv);
   const elapsed = (Date.now() - new Date(row.served_at).getTime()) / 1000; // negatif = masih dalam jeda baca
   const limit = mode === "speedrun" ? SPEEDRUN_TIME : cfg.timeLimit;

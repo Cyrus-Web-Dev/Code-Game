@@ -1,10 +1,6 @@
 import { NextRequest } from "next/server";
 import { admin, closeSession, todayWIB, getLang, grantAchievements, ensureMeta } from "@/lib/server";
-<<<<<<< HEAD
 import { LEVELS, TIME_LIMIT, SPEEDRUN_TIME, Level, PlayableLevel, isGodLevel, anyLevelConfig } from "@/lib/config";
-=======
-import { LEVELS, TIME_LIMIT, SPEEDRUN_TIME, Level, AnyLevel, isGodLevel, anyLevelConfig } from "@/lib/config";
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
 
 type SessionRow = { id: string; user_id?: string; difficulty: string; length: number; score: number; correct: number; total: number; status: string; mode?: string; streak?: number; hints_used?: number };
 type Opts = {
@@ -25,11 +21,7 @@ export async function getNextQuestionState(uid: string, sid: string, req: NextRe
   if (!s) { const { data } = await admin.from("game_sessions").select("*").eq("id", sid).eq("user_id", uid).single(); s = data; }
   if (!s || s.status !== "active") return { error: "SESSION_INACTIVE" };
 
-<<<<<<< HEAD
   const lv = s.difficulty as PlayableLevel;
-=======
-  const lv = s.difficulty as AnyLevel;
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   const mode = s.mode || "normal";
   const cfg = anyLevelConfig(lv);
   const timeLimit = mode === "speedrun" ? SPEEDRUN_TIME : cfg.timeLimit;

@@ -8,12 +8,8 @@ import { Button } from "@/components/ui/button";
 import TitleBadge from "@/components/TitleBadge";
 import LevelRanks from "@/components/LevelRanks";
 import GameHistory from "@/components/GameHistory";
-<<<<<<< HEAD
 import { ACHIEVEMENTS, LEVEL_IDS, LEVELS, TITLE_DEFS, THEMES, anyTheme, earnedDevBadges, devBadgeRingColors, type AchievementId } from "@/lib/config";
 import Avatar from "@/components/Avatar";
-=======
-import { ACHIEVEMENTS, LEVEL_IDS, LEVELS, TITLE_DEFS, THEMES, type AchievementId, type Level } from "@/lib/config";
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
 import { useLang, useT } from "@/lib/i18n";
 import { api } from "@/lib/supabase";
 import { useMe } from "@/lib/store";
@@ -42,12 +38,8 @@ export default function Profile() {
   }, [d]);
   if (!d) return <div className="grid gap-4"><div className="skeleton h-72 w-full" /><div className="skeleton h-32 w-full" /></div>;
   if (d.error) return <p>{t("err_" + d.error)}</p>;
-<<<<<<< HEAD
   const p = d.profile, ti = d.title, th = anyTheme(ti.level), meta = d.meta ?? { streak: 0, bestStreak: 0, achievements: [] };
   const devBadges = earnedDevBadges(d.stats ?? []);
-=======
-  const p = d.profile, ti = d.title, th = THEMES[ti.level as Level], meta = d.meta ?? { streak: 0, bestStreak: 0, achievements: [] };
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   async function save() {
     const r: any = await api("/api/profile", e);
     setMsg(r.error ? t("err_" + r.error) : t("saved")); if (!r.error) { useMe.getState().invalidate(); load(true); }
@@ -65,7 +57,6 @@ export default function Profile() {
           <TitleBadge tier={ti.tier} level={ti.level} tech={p.favorite_language} size={330} label={ti.name} particles />
           <div>
             <div className="flex items-center gap-3">
-<<<<<<< HEAD
               <Avatar src={p.avatar_url} name={p.username} size={64} rings={devBadgeRingColors(devBadges)} />
               <div><h1 className="flex flex-wrap items-center gap-2 font-display text-3xl">{p.username}{p.is_demo && <span className="chip chip-demo">{t("demo_tag")}</span>}</h1>
                 <p className="text-xs uppercase tracking-[0.25em]" style={{ color: th.main }}>{t("tier_" + ti.tier)}</p></div>
@@ -75,12 +66,6 @@ export default function Profile() {
                 {devBadges.map((b) => <span key={b.role} className="rounded-full px-2.5 py-1 text-xs font-semibold" style={{ background: b.theme.main + "22", color: b.theme.main, border: `1px solid ${b.theme.main}66` }}>{b.name}</span>)}
               </div>
             )}
-=======
-              {p.avatar_url ? <img src={p.avatar_url} alt="" className="h-16 w-16 rounded-full border-2 object-cover" style={{ borderColor: th.main }} /> : <div className="h-16 w-16 rounded-full border-2 bg-line" style={{ borderColor: th.main }} />}
-              <div><h1 className="flex flex-wrap items-center gap-2 font-display text-3xl">{p.username}{p.is_demo && <span className="chip chip-demo">{t("demo_tag")}</span>}</h1>
-                <p className="text-xs uppercase tracking-[0.25em]" style={{ color: th.main }}>{t("tier_" + ti.tier)}</p></div>
-            </div>
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
             <p className="mt-4 text-xs text-paper/60">{t("p_title_label")}</p>
             <p className="text-2xl font-extrabold leading-tight" style={{ color: th.main, textShadow: `0 0 24px ${th.glow}` }}>{ti.name}</p>
             <p className="mt-1 text-sm text-paper/75">{ti.desc[lang]}</p>

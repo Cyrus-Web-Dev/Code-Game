@@ -1,10 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { admin, userId, fail, todayWIB, ensureMeta } from "@/lib/server";
-<<<<<<< HEAD
 import { isGodLevel, isDevRole, isPlayable, SESSION_LEN, MARATHON_LEN, SPEEDRUN_LEN, DAILY_LEN } from "@/lib/config";
-=======
-import { isLevel, isGodLevel, SESSION_LEN, MARATHON_LEN, SPEEDRUN_LEN, DAILY_LEN } from "@/lib/config";
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
 import { getNextQuestionState } from "@/lib/game-session";
 
 export async function POST(req: NextRequest) {
@@ -32,15 +28,9 @@ export async function POST(req: NextRequest) {
     diff = levels[dayNum % 5];
   }
 
-<<<<<<< HEAD
   if (!isPlayable(diff)) return fail("INVALID_LEVEL");
   // God Mode & Developer Mode hanya punya 2 cara main: Biasa (10 soal) dan Maraton (100 soal) — tanpa speedrun/daily.
   if ((isGodLevel(diff) || isDevRole(diff)) && mode !== "normal" && mode !== "maraton") return fail("INVALID_LEVEL");
-=======
-  if (!isLevel(diff) && !isGodLevel(diff)) return fail("INVALID_LEVEL");
-  // God Mode hanya punya 2 cara main: Biasa (10 soal) dan Maraton (100 soal) — tanpa speedrun/daily.
-  if (isGodLevel(diff) && mode !== "normal" && mode !== "maraton") return fail("INVALID_LEVEL");
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
 
   await admin
     .from("game_sessions")

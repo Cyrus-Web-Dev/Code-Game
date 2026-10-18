@@ -88,17 +88,12 @@ export const anyLabel = (id: AnyLevel) => (isGodLevel(id) ? GOD_LEVELS[id].label
 export const anyPoints = (id: AnyLevel) => (isGodLevel(id) ? GOD_LEVELS[id].points : LEVELS[id].points);
 export const anyTheme = (id: AnyLevel) => (isGodLevel(id) ? GOD_THEMES[id] : THEMES[id]);
 
-<<<<<<< HEAD
 /** Konfigurasi gabungan (tingkat biasa + God Mode + Developer Mode) dipakai server (sesi/skor/waktu/hint). */
 export function anyLevelConfig(id: PlayableLevel) {
   if (isDevRole(id)) {
     const d = DEV_ROLES[id];
     return { points: d.points, timeLimit: d.timeLimit, streak: d.streak as StreakRule | undefined, hintsUnlimited: true, hints: 0 };
   }
-=======
-/** Konfigurasi gabungan (tingkat biasa + God Mode) dipakai server (sesi/skor/waktu/hint). */
-export function anyLevelConfig(id: AnyLevel) {
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   if (isGodLevel(id)) {
     const g = GOD_LEVELS[id];
     return { points: g.points, timeLimit: g.timeLimit, streak: g.streak as StreakRule | undefined, hintsUnlimited: true, hints: 0 };
@@ -191,7 +186,6 @@ export function currentTitle(starter: string, stats: Stat[], selected?: string |
   return pick ? { tier: pick.tier, level: pick.level, name: pick.name, desc: pick.desc, key: pick.key } : starterCur;
 }
 
-<<<<<<< HEAD
 // ════════ v2.1: DEVELOPER MODE — Frontend / Backend / Full Stack ════════
 // Jalur gelar "skill", TERPISAH dari gelar penaklukan Easy–Primordial God: bisa dipakai bertumpuk
 // (lebih dari satu sekaligus) dan tidak pernah menggantikan currentTitle. Soal sesuai peran yang dipilih.
@@ -242,8 +236,6 @@ export const devBadgeRingColors = (badges: DevBadge[]) => badges.map((b) => b.th
 export const playLabel = (id: PlayableLevel) => (isDevRole(id) ? DEV_ROLES[id].label : anyLabel(id));
 export const playTheme = (id: PlayableLevel) => (isDevRole(id) ? DEV_THEMES[id] : anyTheme(id));
 
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
 export type AchievementId =
   | "first_blood" | "streak_3" | "streak_7" | "streak_30"
   | "perfect_10" | "marathon_finisher" | "speed_demon"

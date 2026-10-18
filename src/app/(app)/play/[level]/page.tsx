@@ -7,11 +7,7 @@ import { create } from "zustand";
 import { Check, X, Clock, Lightbulb, Flag, Share2, RotateCcw, LayoutGrid, Zap } from "lucide-react";
 import { api } from "@/lib/supabase";
 import { useMe } from "@/lib/store";
-<<<<<<< HEAD
 import { isPlayable, isGodLevel, TIME_LIMIT, ACHIEVEMENTS, playLabel, type AchievementId } from "@/lib/config";
-=======
-import { isAnyLevel, isGodLevel, TIME_LIMIT, ACHIEVEMENTS, anyLabel, type AchievementId } from "@/lib/config";
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
 import { useT, useLang } from "@/lib/i18n";
 import { sfx } from "@/lib/sounds";
 import CodeBlock from "@/components/CodeBlock";
@@ -90,11 +86,7 @@ export default function Play({ params }: { params: { level: string } }) {
   }, [applyQuestionPayload]);
 
   useEffect(() => {
-<<<<<<< HEAD
     if (!isPlayable(level) && level !== "daily") return;
-=======
-    if (!isAnyLevel(level) && level !== "daily") return;
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
     const modeParam = new URLSearchParams(location.search).get("mode") || (level === "daily" ? "daily" : "normal");
     api("/api/game/start", { level: level === "daily" ? "easy" : level, mode: modeParam }).then((d: any) => {
       if (d.error) return setErr(d.error);
@@ -165,11 +157,7 @@ export default function Play({ params }: { params: { level: string } }) {
   async function quit() { await api("/api/game/quit", { session }); setDone("quit"); }
 
   async function shareResult() {
-<<<<<<< HEAD
     const text = `🏆 Kode Tebak — ${isPlayable(levelLabel) ? playLabel(levelLabel) : levelLabel}\n` +
-=======
-    const text = `🏆 Kode Tebak — ${isAnyLevel(levelLabel) ? anyLabel(levelLabel) : levelLabel}\n` +
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
       `Skor: ${score} | Benar: ${correctCount}/${progress.total}\n` +
       (mode !== "normal" ? `Mode: ${mode}\n` : "") +
       `https://kode-tebak.vercel.app`;
@@ -179,11 +167,7 @@ export default function Play({ params }: { params: { level: string } }) {
     } catch { /* cancelled */ }
   }
 
-<<<<<<< HEAD
   if (!isPlayable(level) && level !== "daily") return <p>404</p>;
-=======
-  if (!isAnyLevel(level) && level !== "daily") return <p>404</p>;
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   if (err) return (
     <div className="grid gap-4 text-center py-16">
       <p role="alert" className="text-hot text-lg">{t("err_" + err)}</p>
@@ -270,11 +254,7 @@ export default function Play({ params }: { params: { level: string } }) {
       {/* Top bar */}
       <div className="flex flex-wrap items-center gap-3 font-mono text-sm">
         <span className="rounded-md bg-panel px-2.5 py-1 border border-line font-semibold">
-<<<<<<< HEAD
           {isPlayable(levelLabel) ? playLabel(levelLabel) : levelLabel}
-=======
-          {isAnyLevel(levelLabel) ? anyLabel(levelLabel) : levelLabel}
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
           {mode === "speedrun" && <Zap size={12} className="inline ml-1 text-gold" />}
           {mode === "daily" && <span className="ml-1 text-gold text-xs">DAILY</span>}
           {mode === "maraton" && <span className="ml-1 text-mint text-xs">100</span>}

@@ -93,10 +93,6 @@ console.log("Soal God Mode dihasilkan:", counts, "(maks per tingkat:", 200, ")")
 
 // Data untuk halaman Info ("Tools Keamanan")
 mkdirSync(new URL("../src/data/", import.meta.url), { recursive: true });
-<<<<<<< HEAD
 const info = TOOLS.map((t) => ({ name: t.name, tier: t.tier, cat: t.cat, purpose: t.purpose, use: t.use, cmd: t.cmd, tip: t.tip, site: t.site }));
-=======
-const info = TOOLS.map((t) => ({ name: t.name, tier: t.tier, cat: t.cat, purpose: t.purpose, use: t.use, tip: t.tip, site: t.site }));
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
 writeFileSync(new URL("../src/data/security-tools.json", import.meta.url), JSON.stringify(info, null, 1));
 console.log("src/data/security-tools.json:", info.length, "tools");

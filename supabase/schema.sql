@@ -77,19 +77,8 @@ create table if not exists hint_quota (
   primary key (user_id, difficulty)
 );
 
-<<<<<<< HEAD
 -- (v2.2: tabel feedback dihapus — lihat migration-v2.2-remove-feedback.sql. Saran/kritik/bug kini
 --  diarahkan ke halaman /contact yang menautkan langsung ke Instagram/Email/WA developer, tanpa upload foto.)
-=======
-create table if not exists feedback (
-  id bigint generated always as identity primary key,
-  user_id uuid references profiles on delete set null,
-  username text,
-  kind text not null default 'saran' check (kind in ('saran','kritik','bug')),
-  message text not null check (char_length(message) between 5 and 2000),
-  created_at timestamptz default now()
-);
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
 
 -- ── Function + trigger (gelar awal otomatis) ─────────────────────────
 create or replace function set_starter_title() returns trigger language plpgsql as $$
@@ -118,20 +107,12 @@ alter table game_sessions enable row level security;
 alter table session_answers enable row level security;
 alter table user_stats enable row level security;
 alter table hint_quota enable row level security;
-<<<<<<< HEAD
 
-=======
-alter table feedback enable row level security;
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
 
 -- Data publik DITUTUP: leaderboard dibaca lewat RPC leaderboard_rows (kolom aman saja).
 drop policy if exists "profil publik (leaderboard)" on profiles;
 drop policy if exists "statistik publik (leaderboard)" on user_stats;
-<<<<<<< HEAD
 -- credentials, questions, sesi, hint, rate_limits: TANPA policy = tertutup untuk anon key.
-=======
--- credentials, questions, sesi, hint, feedback, rate_limits: TANPA policy = tertutup untuk anon key.
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
 
 -- Realtime tidak dipakai (leaderboard polling lewat RPC).
 do $$ begin alter publication supabase_realtime drop table profiles; exception when others then null; end $$;
@@ -652,14 +633,6 @@ end $$;
 revoke execute on function player_history(uuid, text, timestamptz, int) from public, anon, authenticated;
 grant execute on function player_history(uuid, text, timestamptz, int) to service_role;
 
-<<<<<<< HEAD
-=======
--- Foto lampiran pada Saran & Kritik (bukti bug). Disimpan di bucket PRIVAT "feedback"; lihat lewat Supabase > Storage.
-alter table feedback add column if not exists attachments text[] not null default '{}';
-do $$ begin
-  insert into storage.buckets (id, name, public) values ('feedback', 'feedback', false) on conflict (id) do nothing;
-exception when others then null; end $$;
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
 -- ════════ v2: GOD MODE, bonus jawaban beruntun, hint berjenjang ════════
 -- Aditif & aman diulang. Pastikan migrasi v1.3a, v1.4, dan v1.5 sudah pernah dijalankan.
 -- Urutan: jalankan file ini di SQL Editor, lalu deploy kode, lalu (opsional) jalankan
@@ -689,7 +662,6 @@ alter table game_sessions add column if not exists hints_used int not null defau
 alter table session_answers add column if not exists hint_count int not null default 0;
 
 create index if not exists questions_god_difficulty_idx on questions(difficulty) where active and difficulty in ('demi_god','god','true_god','primordial_god');
-<<<<<<< HEAD
 -- ════════ v2.1: DEVELOPER MODE (Frontend / Backend / Full Stack) ════════
 -- Aditif & aman diulang. Jalankan SETELAH migration-v2-godmode.sql.
 -- Gelar Master Frontend/Backend/Fullstack dan bingkai avatarnya dihitung 100% di klien dari user_stats
@@ -708,5 +680,3 @@ alter table questions add constraint questions_difficulty_check
   check (difficulty in ('easy','normal','hard','extreme','hell','demi_god','god','true_god','primordial_god','frontend','backend','fullstack'));
 
 create index if not exists questions_dev_difficulty_idx on questions(difficulty) where active and difficulty in ('frontend','backend','fullstack');
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb

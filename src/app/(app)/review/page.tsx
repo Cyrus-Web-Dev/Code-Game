@@ -4,11 +4,7 @@ import { motion } from "framer-motion";
 import { BookOpen, Check, X } from "lucide-react";
 import { api } from "@/lib/supabase";
 import { useT } from "@/lib/i18n";
-<<<<<<< HEAD
 import { THEMES, isPlayable, playTheme } from "@/lib/config";
-=======
-import { THEMES, type Level } from "@/lib/config";
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
 import CodeBlock from "@/components/CodeBlock";
 
 type Item = {
@@ -47,11 +43,7 @@ export default function Review() {
       ) : (
         <div className="grid gap-3">
           {items.map((it, i) => {
-<<<<<<< HEAD
             const th = isPlayable(it.difficulty) ? playTheme(it.difficulty) : THEMES.easy;
-=======
-            const th = THEMES[it.difficulty as Level] || THEMES.easy;
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
             const isOpen = open === it.id;
             return (
               <motion.div key={it.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.03 }}

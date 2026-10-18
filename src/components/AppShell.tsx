@@ -2,11 +2,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
-<<<<<<< HEAD
 import { Gamepad2, Trophy, UserRound, Award, Home, LogOut, BookOpen, Users, Skull, Code2 } from "lucide-react";
-=======
-import { Gamepad2, Trophy, UserRound, Award, Home, LogOut, BookOpen, Users, Skull } from "lucide-react";
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
 import { useUser, usePresence } from "@/lib/store";
 import { useT } from "@/lib/i18n";
 import { api } from "@/lib/supabase";
@@ -35,10 +31,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const items = [
     ["/game", Gamepad2, t("nav_game")],
     ["/god", Skull, t("nav_god")],
-<<<<<<< HEAD
     ["/dev", Code2, t("nav_dev")],
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
     ["/leaderboard", Trophy, t("nav_rank")],
     ["/profile", UserRound, t("nav_profile")],
     ["/titles", Award, t("nav_titles")],

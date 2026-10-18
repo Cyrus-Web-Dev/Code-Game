@@ -4,11 +4,7 @@ import Link from "next/link";
 import { UserPlus, Check, X, Search, UserMinus, Clock } from "lucide-react";
 import Avatar from "@/components/Avatar";
 import TitleBadge from "@/components/TitleBadge";
-<<<<<<< HEAD
 import { currentTitle, LEVELS, anyTheme, earnedDevBadges, devBadgeRingColors, isPlayable, playLabel } from "@/lib/config";
-=======
-import { currentTitle, LEVELS, anyTheme } from "@/lib/config";
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
 import { useT } from "@/lib/i18n";
 import { agoText } from "@/lib/time";
 import { api } from "@/lib/supabase";
@@ -52,11 +48,7 @@ export default function Friends() {
     if (d?.error) { setMsg(t("err_" + d.error)); return; }
     setFound(d.results ?? []);
   }
-<<<<<<< HEAD
   const status = (f: Friend) => f.playing ? { text: t("fr_playing", { lvl: f.playing && isPlayable(f.playing) ? playLabel(f.playing) : f.playing }), cls: "text-gold" }
-=======
-  const status = (f: Friend) => f.playing ? { text: t("fr_playing", { lvl: LEVELS[f.playing as keyof typeof LEVELS]?.label ?? f.playing }), cls: "text-gold" }
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
     : f.online ? { text: t("fr_online"), cls: "text-mint" }
     : { text: f.seen_ago == null ? t("fr_offline_never") : t("fr_offline", { ago: agoText(f.seen_ago, t) }), cls: "text-paper/50" };
   const tabs: [Tab, string, number?][] = [["list", t("fr_tab_list"), data?.friends.length], ["req", t("fr_tab_req"), data?.incoming.length], ["add", t("fr_tab_add")]];
@@ -79,7 +71,6 @@ export default function Friends() {
           {data && <p className="text-xs text-paper/50">{t("fr_count", { n: data.friends.length })}</p>}
           {data && data.friends.length === 0 && <p className="text-paper/70">{t("fr_empty")}</p>}
           {data?.friends.map((f) => {
-<<<<<<< HEAD
             const ti = currentTitle(f.starter, f.stats, f.sel), th = anyTheme(ti.level), st = status(f), devBadges = earnedDevBadges(f.stats ?? []);
             return (
               <div key={f.id} className="level-card" style={{ ["--c" as string]: th.main, ["--g" as string]: th.glow }}>
@@ -89,16 +80,6 @@ export default function Friends() {
                     <div className="flex flex-wrap items-center gap-2"><Link href={`/u/${f.username}`} className="truncate text-lg font-bold hover:underline">{f.username}</Link>{f.demo && <span className="chip chip-demo">{t("demo_tag")}</span>}</div>
                     <div className="truncate text-xs font-semibold" style={{ color: th.main }}>{ti.name}</div>
                     {devBadges.length > 0 && <div className="mt-0.5 flex flex-wrap gap-1">{devBadges.map((b) => <span key={b.role} className="rounded-full px-1.5 py-0.5 text-[9px] font-bold" style={{ background: b.theme.main + "26", color: b.theme.main }}>{b.name}</span>)}</div>}
-=======
-            const ti = currentTitle(f.starter, f.stats, f.sel), th = anyTheme(ti.level), st = status(f);
-            return (
-              <div key={f.id} className="level-card" style={{ ["--c" as string]: th.main, ["--g" as string]: th.glow }}>
-                <div className="flex items-center gap-3">
-                  <Avatar src={f.avatar} name={f.username} size={56} online={f.online || !!f.playing} />
-                  <div className="min-w-0 flex-1">
-                    <div className="flex flex-wrap items-center gap-2"><Link href={`/u/${f.username}`} className="truncate text-lg font-bold hover:underline">{f.username}</Link>{f.demo && <span className="chip chip-demo">{t("demo_tag")}</span>}</div>
-                    <div className="truncate text-xs font-semibold" style={{ color: th.main }}>{ti.name}</div>
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
                     <div className={`text-xs ${st.cls}`}>{st.text}</div>
                   </div>
                   <div className="hidden sm:block"><TitleBadge tier={ti.tier} level={ti.level} tech={f.fav} size={84} label={ti.name} still={ti.tier !== "legendary"} /></div>

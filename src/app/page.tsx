@@ -1,10 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-<<<<<<< HEAD
 import { Play, BookOpen, Languages, AtSign, LogOut, LogIn } from "lucide-react";
-=======
-import { Play, BookOpen, Languages, MessageSquareHeart, LogOut, LogIn } from "lucide-react";
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
 import { motion } from "framer-motion";
 import MenuButton from "@/components/MenuButton";
 import LangSwitch from "@/components/LangSwitch";
@@ -45,11 +41,7 @@ export default function Menu() {
           <MenuButton primary icon={Play} href={status === "in" ? "/game" : "/login"}>{t("m_start")}</MenuButton>
           <MenuButton icon={BookOpen} href="/info">{t("m_info")}</MenuButton>
           <MenuButton icon={Languages} href="/settings">{t("m_settings")}</MenuButton>
-<<<<<<< HEAD
           <MenuButton icon={AtSign} href="/contact">{t("m_contact")}</MenuButton>
-=======
-          <MenuButton icon={MessageSquareHeart} href="/feedback">{t("m_feedback")}</MenuButton>
->>>>>>> 139710653228b172a081280c0c37a037c1a953fb
           {status === "in"
             ? <MenuButton icon={LogOut} onClick={logout}>{t("m_logout")}</MenuButton>
             : <MenuButton icon={LogIn} href="/login">{t("login")}</MenuButton>}
