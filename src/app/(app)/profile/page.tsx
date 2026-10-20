@@ -7,6 +7,7 @@ import { Flame, Trophy, Medal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import TitleBadge from "@/components/TitleBadge";
 import LevelRanks from "@/components/LevelRanks";
+import EarnedTitles from "@/components/EarnedTitles";
 import GameHistory from "@/components/GameHistory";
 import { ACHIEVEMENTS, LEVEL_IDS, LEVELS, TITLE_DEFS, THEMES, anyTheme, earnedDevBadges, activeMaster, type AchievementId } from "@/lib/config";
 import Avatar from "@/components/Avatar";
@@ -69,7 +70,7 @@ export default function Profile() {
               </div>
             )}
             <p className="mt-4 text-xs text-paper/60">{t("p_title_label")}</p>
-            <p className="text-2xl font-extrabold leading-tight" style={{ color: th.main, textShadow: `0 0 24px ${th.glow}` }}>{ti.name}</p>
+            <p className={`text-2xl font-extrabold leading-tight ${ti.tier === "legendary" ? "name-shine" : ""}`} style={{ color: th.main, textShadow: `0 0 24px ${th.glow}`, ["--c" as string]: th.main, ["--g" as string]: th.glow }}>{ti.name}</p>
             <p className="mt-1 text-sm text-paper/75">{ti.desc[lang]}</p>
             <div className="mt-4 flex flex-wrap gap-2"><Chip k={t("p_role")} v={t("role_" + p.role)} /><Chip k={t("p_fav_lang")} v={p.favorite_language} /><Chip k={t("p_fav_fw")} v={p.favorite_framework} /><Chip k={t("p_skill")} v={t("skill_" + p.skill_level)} /></div>
             <div className="mt-4 grid grid-cols-3 gap-2 text-center">
@@ -83,6 +84,8 @@ export default function Profile() {
         </div>
       </section>
       </MasterCard>
+
+      <EarnedTitles stats={d.stats ?? []} current={ti} tech={p.favorite_language} />
 
       <section className="grid gap-3">
         <h2 className="font-display text-xl text-gold">{t("p_levelranks")}</h2>

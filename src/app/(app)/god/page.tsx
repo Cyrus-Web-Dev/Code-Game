@@ -54,7 +54,7 @@ export default function GodMode() {
             <motion.div key={l} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}>
               <div className="level-card" style={{ ["--c" as string]: th.main, ["--g" as string]: th.glow }}>
                 <div className="grid grid-cols-[130px_1fr] items-center gap-3 sm:grid-cols-[190px_1fr_auto] sm:gap-5">
-                  <div className="-ml-2"><TitleBadge tier="legendary" level={l} tech={fav} size={190} label={GOD_TITLE_DEFS[l].legend} /></div>
+                  <div className="-ml-2"><TitleBadge tier="legendary" level={l} tech={fav} size={190} label={GOD_TITLE_DEFS[l].legend} particles /></div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
                       <span className="h-2.5 w-2.5 rounded-full" style={{ background: th.main, boxShadow: `0 0 10px ${th.glow}` }} />

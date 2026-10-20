@@ -213,10 +213,21 @@ begin
   select a.question_id, a.served_at into v_qid, v_served from session_answers a
     where a.session_id = p_session and a.answered_at is null and a.question_id is distinct from p_skip limit 1;
   if v_qid is null then
-    select q.id into v_qid from questions q
-      where q.difficulty = p_level and q.active
-        and not exists (select 1 from session_answers a where a.session_id = p_session and a.question_id = q.id)
-      order by random() limit 1;
+    if p_level in ('frontend','backend','fullstack') then
+      -- v2.4 Developer Mode: utamakan soal yang BELUM pernah dijawab pemain ini (di sesi mana pun); baru ulangi bila bank habis.
+      -- Dengan bank 800 soal/peran, 500 jawaban untuk gelar Master hampir seluruhnya soal berbeda.
+      select q.id into v_qid from questions q
+        where q.difficulty = p_level and q.active
+          and not exists (select 1 from session_answers a where a.session_id = p_session and a.question_id = q.id)
+        order by (q.id in (select a2.question_id from session_answers a2 join game_sessions g on g.id = a2.session_id
+                           where g.user_id = p_user and g.difficulty = p_level and a2.answered_at is not null)), random()
+        limit 1;
+    else
+      select q.id into v_qid from questions q
+        where q.difficulty = p_level and q.active
+          and not exists (select 1 from session_answers a where a.session_id = p_session and a.question_id = q.id)
+        order by random() limit 1;
+    end if;
     if v_qid is null then return null; end if;
     v_served := p_served;
     insert into session_answers (session_id, question_id, served_at) values (p_session, v_qid, v_served);
@@ -227,6 +238,8 @@ begin
     into r from questions q where q.id = v_qid;
   return r;
 end $$;
+create index if not exists game_sessions_user_diff_idx on game_sessions(user_id, difficulty);
+create index if not exists session_answers_session_idx on session_answers(session_id);
 
 -- 6b) Pemberian pencapaian dalam 1 panggilan (menggantikan baca-lalu-tulis)
 create or replace function grant_achievements(p_user uuid, p_ids text[]) returns text[]

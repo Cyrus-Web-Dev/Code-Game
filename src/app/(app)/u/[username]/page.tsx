@@ -6,6 +6,7 @@ import Avatar from "@/components/Avatar";
 import { MasterCard, MasterPill } from "@/components/Master";
 import TitleBadge from "@/components/TitleBadge";
 import LevelRanks from "@/components/LevelRanks";
+import EarnedTitles from "@/components/EarnedTitles";
 import GameHistory from "@/components/GameHistory";
 import { ACHIEVEMENTS, LEVEL_IDS, LEVELS, THEMES, anyTheme, TITLE_DEFS, earnedDevBadges, activeMaster, isPlayable, playLabel, type AchievementId } from "@/lib/config";
 import { useLang, useT } from "@/lib/i18n";
@@ -55,7 +56,7 @@ export default function Player({ params }: { params: { username: string } }) {
                 {devBadges.map((b) => <MasterPill key={b.role} role={b.role} active={b.role === master} className="px-2.5 py-1 text-xs" />)}
               </div>
             )}
-            <p className="mt-4 text-2xl font-extrabold leading-tight" style={{ color: th.main, textShadow: `0 0 24px ${th.glow}` }}>{ti.name}</p>
+            <p className={`mt-4 text-2xl font-extrabold leading-tight ${ti.tier === "legendary" ? "name-shine" : ""}`} style={{ color: th.main, textShadow: `0 0 24px ${th.glow}`, ["--c" as string]: th.main, ["--g" as string]: th.glow }}>{ti.name}</p>
             <p className="mt-1 text-sm text-paper/75">{ti.desc[lang]}</p>
             <div className="mt-4 flex flex-wrap gap-2"><Chip k={t("p_fav_lang")} v={d.fav} /><Chip k={t("pf_joined")} v={joined} /></div>
             <div className="mt-4 grid grid-cols-4 gap-2 text-center">
@@ -76,6 +77,8 @@ export default function Player({ params }: { params: { username: string } }) {
         </div>
       </section>
       </MasterCard>
+
+      <EarnedTitles stats={d.stats ?? []} current={ti} tech={d.fav} />
 
       <section className="grid gap-3">
         <h2 className="font-display text-xl text-gold">{t("p_levelranks")}</h2>

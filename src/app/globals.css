@@ -253,3 +253,53 @@ body { @apply bg-ink text-paper font-sans antialiased; }
 
 @media print { .mcard::before, .mcard::after, .mcard-fx, .mf-aura, .mf-sp { display: none !important; } }
 @media (prefers-reduced-motion: reduce) { .mf-ring, .mf-ring2, .mf-aura, .mcard::before, .mcard::after { animation: none !important; } .mcard::before { background-position: 0 0; } }
+
+/* ═════════ v2.5: efek premium lencana God Mode & Master ═════════
+   Prinsip beban rendah (Vercel gratis, HP menengah): hanya transform/opacity/mask yang dikomposit GPU; tanpa filter blur
+   berat; animasi dijeda di luar layar (kelas .tb-paused dari IntersectionObserver); mati total di prefers-reduced-motion. */
+@keyframes mf-sweep { 0% { transform: translateX(-130%) skewX(-18deg); } 55%, 100% { transform: translateX(230%) skewX(-18deg); } }
+@keyframes mf-scan  { to { transform: translateY(6px); } }
+@keyframes mc-in    { from { opacity: 0; transform: translateY(10px) scale(.985); } }
+
+/* Lencana: aura konik berputar (statis di-rotate = transform saja) + kilap yang mengikuti kursor */
+.tb { --c: #f5c451; --g: #7a5a00; --a: #fff1b8; }
+.tb-aura, .tb-aura2 { position: absolute; z-index: 0; border-radius: 9999px; pointer-events: none; }
+.tb-aura { inset: -6%; opacity: .6; will-change: transform; animation: mf-spin 12s linear infinite;
+  background: conic-gradient(transparent 0 6%, var(--c) 15%, transparent 30%, var(--a) 44%, transparent 58%, var(--c) 73%, transparent 90%);
+  -webkit-mask: radial-gradient(farthest-side, transparent 69%, #000 73%, transparent 90%); mask: radial-gradient(farthest-side, transparent 69%, #000 73%, transparent 90%); }
+.tb-aura2 { inset: -12%; opacity: .32; will-change: transform; animation: mf-spinr 22s linear infinite;
+  background: repeating-conic-gradient(var(--c) 0 1.6deg, transparent 1.6deg 16deg);
+  -webkit-mask: radial-gradient(farthest-side, transparent 80%, #000 83%, transparent 91%); mask: radial-gradient(farthest-side, transparent 80%, #000 83%, transparent 91%); }
+.tb-god .tb-aura { opacity: .9; animation-duration: 8s; }
+.tb-god .tb-aura2 { opacity: .55; animation-duration: 16s; }
+.tb-tilt { transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .16s ease-out; will-change: transform; }
+.tb-glare { position: absolute; inset: 0; z-index: 2; pointer-events: none; border-radius: 9999px; mix-blend-mode: soft-light; background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255,255,255,.34), rgba(255,255,255,0) 54%);
+  -webkit-mask: radial-gradient(circle, #000 38%, transparent 68%); mask: radial-gradient(circle, #000 38%, transparent 68%); }
+.tb-paused .tb-aura, .tb-paused .tb-aura2 { animation-play-state: paused; }
+
+/* Foil: border berkilau berputar untuk kartu gelar legendaris (tema dari --c/--g kartu) */
+.foil { --fr: 1rem; position: relative; isolation: isolate; box-shadow: 0 0 36px -10px var(--g); }
+.foil::before { content: ""; position: absolute; z-index: 2; inset: -2px; padding: 2px; border-radius: calc(var(--fr) + 2px); pointer-events: none;
+  background: conic-gradient(from var(--ang), var(--c), #fff 7%, var(--g) 22%, var(--c) 38%, #fff7d6 50%, var(--c) 64%, var(--g) 80%, var(--c));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor;
+          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite: exclude; animation: mf-ang 8s linear infinite; }
+/* Nama gelar berkilau (teks gradien bergerak + cahaya tipis) */
+.name-shine { background: linear-gradient(100deg, var(--c) 28%, #fff 46%, var(--c) 64%); background-size: 230% auto; -webkit-background-clip: text; background-clip: text;
+  color: transparent !important; text-shadow: none !important; animation: shine 4.6s linear infinite; filter: drop-shadow(0 0 10px var(--g)); }
+
+/* Master: pil dengan sapuan kilap, kartu dengan suasana khas tiap peran, bintik yang mengorbit avatar */
+.mpill { position: relative; overflow: hidden; }
+.mpill::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(100deg, transparent 36%, rgba(255,255,255,.38) 50%, transparent 64%); transform: translateX(-130%) skewX(-18deg); animation: mf-sweep 4.4s ease-in-out infinite; }
+.mpill-backend::after { background: linear-gradient(100deg, transparent 36%, rgba(190,175,235,.32) 50%, transparent 64%); animation-duration: 6s; }
+.mcard { animation: mc-in .6s cubic-bezier(.2,.8,.2,1) both; }
+.mcard-fx::before, .mcard-fx::after { content: ""; position: absolute; pointer-events: none; }
+.mcard-frontend .mcard-fx::before { inset: 0; background: radial-gradient(75% 55% at 50% 120%, rgba(255,90,20,.4), transparent 70%); animation: mf-flick 2.4s linear infinite; }
+.mcard-backend .mcard-fx::before { inset: -12px 0; background: repeating-linear-gradient(180deg, rgba(150,130,210,.09) 0 1px, transparent 1px 6px); animation: mf-scan 1.6s linear infinite; }
+.mcard-backend .mcard-fx::after { inset: 0; background: radial-gradient(60% 70% at 88% 0%, rgba(120,96,175,.26), transparent 70%); }
+.mcard-fullstack .mcard-fx::before { inset: -45%; background: conic-gradient(from 0deg at 32% 42%, rgba(176,38,255,.24), transparent 24%, rgba(255,42,42,.2) 50%, transparent 74%, rgba(176,38,255,.24)); animation: mf-spin 30s linear infinite; }
+.mf::after { content: ""; position: absolute; z-index: 4; inset: calc((var(--rw) + var(--gap)) * -2); border-radius: 9999px; pointer-events: none;
+  background: radial-gradient(circle at 50% 0, var(--msp) 0 2.4px, transparent 3.8px); animation: mf-spin 3.6s linear infinite; will-change: transform; }
+.mf-backend::after { animation-duration: 6.5s; opacity: .85; }
+
+@media print { .tb-aura, .tb-aura2, .tb-glare, .foil::before, .mpill::after, .mf::after { display: none !important; } }
+@media (prefers-reduced-motion: reduce) { .tb-aura, .tb-aura2, .foil::before, .name-shine, .mpill::after, .mf::after, .mcard { animation: none !important; } }

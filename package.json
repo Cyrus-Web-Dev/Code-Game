@@ -10,7 +10,8 @@
     "build": "next build",
     "start": "next start",
     "gen:questions": "node scripts/gen-bulk.mjs && node scripts/upgrade-hints.mjs",
-    "gen:info": "node scripts/gen-info.mjs"
+    "gen:info": "node scripts/gen-info.mjs && node scripts/gen-info-extra.mjs",
+    "gen:dev": "node scripts/gen-dev.mjs"
   },
   "dependencies": {
     "@node-rs/argon2": "^1.8.3",

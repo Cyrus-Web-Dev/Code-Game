@@ -57,10 +57,10 @@ export default function Titles() {
   const render = (c: Card) => {
     const th = anyTheme(c.level), pct = c.need ? Math.min(100, Math.round(((c.have ?? 0) / c.need) * 100)) : 0;
     return (
-      <div key={c.key} className={`title-card ${c.state === "current" ? "is-current" : ""}`} style={{ ["--c" as string]: th.main, ["--g" as string]: th.glow }}>
-        <TitleBadge tier={c.tier} level={c.level} tech={tech} size={230} label={c.name} />
+      <div key={c.key} className={`title-card ${c.tier === "legendary" ? "foil" : ""} ${c.state === "current" ? "is-current" : ""}`} style={{ ["--c" as string]: th.main, ["--g" as string]: th.glow }}>
+        <TitleBadge tier={c.tier} level={c.level} tech={tech} size={230} label={c.name} particles />
         <p className="mt-1 text-[11px] uppercase tracking-[0.25em]" style={{ color: th.main }}>{t("tier_" + c.tier)}</p>
-        <h3 className="mt-1 text-lg font-bold" style={{ textShadow: `0 0 20px ${th.glow}` }}>{c.name}</h3>
+        <h3 className={`mt-1 text-lg font-bold ${c.tier === "legendary" ? "name-shine" : ""}`} style={{ textShadow: `0 0 20px ${th.glow}` }}>{c.name}</h3>
         <p className="mx-auto mt-1 max-w-xs text-sm text-paper/70">{c.desc}</p>
         <div className="mt-3 flex justify-center">
           {c.state === "locked" ? <span className="chip"><Lock size={12} />{t("t_locked")}</span>
@@ -132,7 +132,7 @@ export default function Titles() {
                 {!have && (
                   <div className="mx-auto mt-3 max-w-xs text-left">
                     <div className="bar"><i style={{ width: `${pct}%` }} /></div>
-                    <p className="mt-1 text-xs text-paper/60">{t("mf_req", { n: Math.min(st.n, DEV_BADGE_RULE.minQ), a: st.a })}</p>
+                    <p className="mt-1 text-xs text-paper/60">{t("mf_req", { n: Math.min(st.n, DEV_BADGE_RULE.minQ), m: DEV_BADGE_RULE.minQ, a: st.a, r: Math.round(DEV_BADGE_RULE.acc * 100) })}</p>
                   </div>
                 )}
               </div>

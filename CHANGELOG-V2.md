@@ -34,11 +34,10 @@ Gelar jalur **skill**, terpisah total dari gelar penaklukan Easy–Primordial Go
 | Backend | +3000 | +250 | 2 menit | Tanpa batas |
 | Full Stack | +3000 | +250 | 2 menit | Tanpa batas |
 
-- Soal menyesuaikan peran: Frontend soal HTML/CSS/JS/React/Vue/dll, Backend soal Python/PHP/Laravel/Django/SQL/dll,
-  Full Stack campuran keduanya + framework lintas sisi (Next.js, Nuxt, dst). Lihat `scripts/dev-roles.mjs`.
-- Bank soal: 250/peran, dihasilkan `scripts/gen-dev.mjs` dari katalog bahasa yang sama dipakai tingkat Easy–Hell.
-- Gelar **Master Frontend / Master Backend / Master Fullstack** didapat di **akurasi ≥85%** dengan minimal
-  **50 soal** dijawab di peran itu (gabungan sesi Biasa + Maraton).
+- ~~Soal menyesuaikan peran dari katalog bahasa Easy–Hell~~ → **diganti total di v2.4** (lihat bagian 6): soal Developer Mode kini skenario kerja nyata level hard–hell.
+- Bank soal: **800/peran** (v2.4), dihasilkan `scripts/gen-dev.mjs` dari `scripts/dev-bank/*` (bukan lagi katalog bahasa Easy–Hell).
+- Gelar **Master Frontend / Master Backend / Master Fullstack** didapat di **akurasi ≥90%** dengan minimal
+  **500 soal** dijawab di peran itu (gabungan sesi Biasa + Maraton) — dinaikkan di v2.4 dari 85% / 50 soal.
 - Hadiah bonus: **bingkai avatar bercahaya** di leaderboard & profil — merah membara (Frontend), hitam gelap
   gulita (Backend), ungu pekat berhawa gelap (Full Stack). Bertumpuk otomatis kalau punya lebih dari satu gelar
   Master. Dihitung 100% di klien dari `user_stats` yang sudah ada — tidak perlu kolom/fungsi SQL baru untuk gelarnya.
@@ -69,15 +68,53 @@ penyimpanan tak perlu. Sekarang saran/kritik/bug diarahkan langsung ke Instagram
   Server memverifikasi ulang syarat Master dari `user_stats` (`/api/master`).
 - **Migrasi wajib**: jalankan `supabase/migration-v2.3-master-frame.sql` (kolom `profiles.selected_master` + `msel` di leaderboard_rows/friends_overview/player_profile).
 
+## 6) v2.4 — Developer Mode HARD MODE (soal baru total + syarat Master 500 soal / 90%)
+**Masalah v2.1–v2.3:** soal Developer Mode hanyalah "tebak bahasa/framework dari potongan kode" memakai katalog yang sama dengan Easy–Hell,
+sehingga gelar Master terasa hambar. **Sekarang:**
+- **Bank soal baru total** (`scripts/dev-bank/`), **800 soal/peran**, tidak ada satu pun yang sama dengan Easy–Hell (diperiksa otomatis oleh generator).
+  Tingkat kesulitan setara Hard–Hell: pemain harus *menelusuri* kode/aturan, bukan mengenali sintaks.
+- **Jawaban DIHITUNG, bukan ditulis tangan**: kode JavaScript dijalankan di Node (sandbox `vm`, dan proses Node nyata untuk `process.nextTick`),
+  Python dijalankan di python3, SQL di SQLite 3.45 (window function, CTE rekursif), Git di repositori nyata, dan aturan spesifikasi
+  (CSS cascade/@layer, flexbox, grid, margin collapse, stacking context, CORS, SameSite/cookie, CSP, cache HTTP, JWT, cron, SemVer) disimulasikan.
+- **Sembilan tipe soal** (usulan pengguna, dinaikkan levelnya): output/sintaks hilang, pengelompokan teknologi (kategori halus), studi kasus stack,
+  analisis solusi/arsitektur, HTTP & REST, Git (konflik merge, reset/revert/stash), responsif/mobile (srcset+sizes+DPR, dvh, viewport), jargon, keamanan.
+- **Syarat Master: 500 soal dengan akurasi ≥90%** (`DEV_BADGE_RULE` di `src/lib/config.ts`; teks UI otomatis ikut karena memakai parameter).
+- **Soal belum pernah dijawab diprioritaskan** (`serve_question` di `migration-v2.4-dev-hardmode.sql` dan `schema.sql`): tanpa ini 500 jawaban dari bank
+  terbatas akan penuh pengulangan acak. Soal baru habis → baru mengulang.
+- **Anti-celah**: opsi jawaban diseimbangkan panjangnya (celah "pilih opsi terpanjang" ditutup), posisi jawaban A/B/C merata (~33% tiap posisi), pengecoh dibuat dari model kesalahan nyata.
+- Seed dipecah 250 soal/berkas (`dev-1-frontend-1.sql` … `dev-3-fullstack-4.sql`, 12 berkas) agar muat di SQL Editor. Bagian 1 tiap peran **menonaktifkan** soal lama peran itu.
+- Pemain yang sebelumnya sudah Master (50 soal/85%) akan dihitung ulang dengan syarat baru dan bisa kehilangan gelar sampai memenuhinya.
+- **Profil menampilkan SEMUA gelar yang diraih** (komponen `src/components/EarnedTitles.tsx`): gelar standar + legendaris di tiap tingkat (termasuk God Mode)
+  dan gelar Master, dengan tanda ★ pada gelar yang sedang dipakai. Tampil di profil sendiri (`/profile`) dan di profil pemain lain (`/u/[username]`),
+  sehingga pemain lain bisa melihat koleksi gelarnya. Dihitung dari statistik yang sudah dikirim `player_profile` (tanpa perubahan SQL, tanpa data privat tambahan).
+- Soal Developer Mode masih berbahasa Indonesia (kolom `_en` null; UI otomatis jatuh ke teks Indonesia seperti sebelumnya).
+
+## 7) v2.5 — Efek premium God Mode & Master + halaman Informasi baru
+**Efek (semua berjalan di browser pemain; tidak menambah beban serverless/bandwidth Vercel secara berarti):**
+- `TitleBadge`: tilt 3D + kilap yang mengikuti kursor (CSS variables + requestAnimationFrame, **tanpa library**: versi awal memakai framer-motion tetapi menambah ±37 kB First Load ke /profile, /titles, /leaderboard, /u sehingga diganti), aura konik berputar (hanya `transform`, dikomposit GPU),
+  dijeda otomatis saat di luar layar. Confetti khas tiap tier God (hujan emas ✦ / cincin cahaya + ⚡ / pecahan platina ◆ / ledakan kosmik ★☄) — `canvas-confetti` kini dimuat malas.
+- Partikel three.js (hanya saat hover & dimuat malas): Demi God partikel naik + cincin, God orbit + 3 cincin cahaya, True God stardust, Primordial ledakan + 4 cincin ungu. GPU daya-rendah, tanpa antialias, dpr ≤1.25.
+- Kartu gelar legendaris: **foil border** berputar (`.foil`) dan nama berkilau (`.name-shine`) di halaman Gelar, God Mode, profil sendiri, profil pemain lain, dan daftar "Semua gelar".
+- Master: sapuan kilap pada pil, suasana khas tiap peran pada kartu (bara/scanline/aurora), bintik yang mengorbit avatar, animasi masuk kartu.
+- **Anggaran efek otomatis** (`src/lib/fx.ts`): `off` (prefers-reduced-motion), `lite` (Data Saver / koneksi 2G / RAM ≤2GB / CPU ≤2 inti: hanya CSS + confetti kecil, tanpa three.js & tilt), `full`.
+
+**Halaman Informasi (`/info`) kini 3 tab** (`#bahasa`, `#keamanan`, `#peran`; tab berat dimuat malas):
+- **Bahasa & Framework** — isi lama.
+- **Tools Keamanan** — 90 entri: 55 lama (pentest + standar) + **35 baru** (pertahanan, AppSec/DevSecOps, kriptografi & kredensial, jaringan, forensik, cloud/container).
+  Tiap entri: fungsi, tujuan penggunaan, cara pemakaian, contoh perintah, tips, situs resmi. Ada filter grup, pencarian, peta "tools apa untuk tahap apa", dan peringatan etika/hukum.
+- **Peran Developer** — Frontend / Backend / Full Stack: apa itu, tanggung jawab, keahlian, alat, keseharian, jalur belajar, jebakan umum, sisi keamanan (chip membuka tool terkait),
+  kaitan dengan Master di Developer Mode, tabel perbandingan, dan FAQ.
+- Sumber data: `scripts/security-extra.mjs`, `scripts/role-info.mjs` → `npm run gen:info` (memvalidasi duplikat, tautan https, dan rujukan silang) → `src/data/security-extra.json`, `roles.json`.
+
 ## Cara deploy
-1. Jalankan `supabase/migration-v2-godmode.sql` lalu `supabase/migration-v2.1-devmode.sql` di SQL Editor
-   Supabase (aman diulang; instalasi baru cukup `schema.sql` yang sudah memuat kedua blok ini).
+1. Jalankan `supabase/migration-v2-godmode.sql`, `migration-v2.1-devmode.sql`, lalu **`migration-v2.4-dev-hardmode.sql`** di SQL Editor
+   Supabase (aman diulang; instalasi baru cukup `schema.sql` yang sudah memuat semuanya).
 2. Soal God Mode: `supabase/seed/god-1-demi_god.sql` s.d. `god-4-primordial_god.sql` (±165 soal).
-   Soal Developer Mode: `supabase/seed/dev-1-frontend.sql`, `dev-2-backend.sql`, `dev-3-fullstack.sql`
-   (250 soal/peran). Jalankan semua file ini di SQL Editor untuk mengisi bank soal.
+   Soal Developer Mode (v2.4): **12 berkas** `supabase/seed/dev-1-frontend-1..4.sql`, `dev-2-backend-1..4.sql`, `dev-3-fullstack-1..4.sql`
+   (800 soal/peran). Jalankan SEMUA berkas (urut 1→4 per peran); bagian 1 menonaktifkan soal lama.
 3. Untuk memperbanyak soal: God Mode → tambah entri tools di `scripts/security-tools.mjs` lalu jalankan
-   ulang `node scripts/gen-god.mjs`; Developer Mode → tambah nama bahasa/framework di `scripts/dev-roles.mjs`
-   lalu jalankan ulang `node scripts/gen-dev.mjs`.
+   ulang `node scripts/gen-god.mjs`; Developer Mode → tambah famili/entri di `scripts/dev-bank/*.mjs`
+   lalu jalankan ulang `npm run gen:dev` (parameter `DEV_TARGET=800` mengatur jumlah/peran).
 4. `npm install && npm run build` seperti biasa.
 
 ## Catatan kualitas

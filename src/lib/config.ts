@@ -201,7 +201,7 @@ export const DEV_ROLES: Record<DevRole, { label: string; points: number; streak:
   backend: { label: "Backend", points: 3000, streak: { min: 4, bonus: 250 }, timeLimit: 120 },
   fullstack: { label: "Full Stack", points: 3000, streak: { min: 4, bonus: 250 }, timeLimit: 120 },
 };
-export const DEV_SESSION_LEN = 10, DEV_MARATHON_LEN = 100, DEV_QUESTIONS_PER_ROLE = 250;
+export const DEV_SESSION_LEN = 10, DEV_MARATHON_LEN = 100, DEV_QUESTIONS_PER_ROLE = 800;
 
 // Hadiah bonus: bingkai bercahaya di avatar (leaderboard & profil). Merah membara (Frontend), hitam gelap gulita
 // (Backend), ungu pekat berhawa gelap (Full Stack) — lihat Avatar.tsx prop `rings`.
@@ -217,8 +217,9 @@ export const DEV_TITLE_DEFS: Record<DevRole, { name: string; desc: L2 }> = {
   fullstack: { name: "🌌 Master Fullstack", desc: { id: "Menguasai dua dunia sekaligus — dari piksel di layar sampai baris terdalam di server.", en: "Mastered both worlds at once — from the pixels on screen to the deepest line on the server." } },
 };
 
-/** Syarat gelar Master: akurasi >= 85% dengan minimal 50 soal dijawab di peran itu (gabungan sesi Biasa + Maraton). */
-export const DEV_BADGE_RULE = { minQ: 300, acc: 0.85 };
+/** Syarat gelar Master (v2.4 HARD MODE): akurasi >= 90% dengan minimal 500 soal dijawab di peran itu (gabungan sesi Biasa + Maraton).
+ *  Bank soal 800/peran dan server memprioritaskan soal yang BELUM pernah kamu jawab, jadi 500 jawaban sebagian besar soal berbeda. */
+export const DEV_BADGE_RULE = { minQ: 500, acc: 0.9 };
 export type DevBadge = { role: DevRole; name: string; desc: L2; theme: { name: string; main: string; glow: string; accent: string } };
 /** Gelar Master yang sudah diraih pemain — SEMUA yang terpenuhi dikembalikan sekaligus (dipakai bertumpuk, tidak dipilih satu). */
 export function earnedDevBadges(stats: Stat[]): DevBadge[] {

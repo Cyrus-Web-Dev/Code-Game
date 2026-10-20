@@ -1,88 +1,71 @@
-// Generator soal Developer Mode. Jalankan: node scripts/gen-dev.mjs
-// Memakai ulang CATALOG yang sama dengan gen-bulk.mjs, tapi disaring per peran (frontend/backend/fullstack)
-// lewat scripts/dev-roles.mjs, lalu dibuatkan soal tebak/lengkapi/valid seperti tingkat Easy–Hell.
-import { writeFileSync, mkdirSync } from "node:fs";
-import { CATALOG } from "./catalog.mjs";
-import { NOTES_EN } from "./notes-en.mjs";
-import { FRONTEND_NAMES, BACKEND_NAMES, FULLSTACK_ONLY_NAMES } from "./dev-roles.mjs";
+// Generator soal Developer Mode v2.4 (HARD MODE). Jalankan: node scripts/gen-dev.mjs
+// Berbeda dari v2.1–v2.3 (yang menebak bahasa dari katalog Easy–Hell), bank soal sekarang berisi skenario kerja nyata
+// yang jawabannya DIHITUNG: menjalankan kode di Node/Python/SQLite/git sungguhan atau memakai simulator aturan spesifikasi.
+import { writeFileSync, readFileSync, mkdirSync, readdirSync, unlinkSync } from "node:fs";
+import { setSeed, shuf } from "./dev-bank/engine.mjs";
+import { FE_JS } from "./dev-bank/fe-js.mjs";
+import { FE_CSS } from "./dev-bank/fe-css.mjs";
+import { feCurated } from "./dev-bank/fe-curated.mjs";
+import { BE_SQL } from "./dev-bank/be-sql.mjs";
+import { BE_PY } from "./dev-bank/be-py.mjs";
+import { BE_SYS } from "./dev-bank/be-sys.mjs";
+import { FS_ONLY } from "./dev-bank/fs.mjs";
+import { extraFamilies } from "./dev-bank/extra.mjs";
 
-let seed = 20270601;
-const rnd = () => { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
-const ri = (a, b) => a + Math.floor(rnd() * (b - a + 1));
-const pk = (a) => a[Math.floor(rnd() * a.length)];
-const shuf = (a) => a.map((v) => [rnd(), v]).sort((x, y) => x[0] - y[0]).map((x) => x[1]);
-const cap = (s) => s[0].toUpperCase() + s.slice(1);
-const rep = (s, n) => s.repeat(n);
-const W = ["halo", "dunia", "kopi", "senja", "nasi", "bakso", "padang", "laut", "gunung", "angin", "hujan", "bunga", "batik", "wayang", "garuda", "merdeka", "sate", "rendang", "tempe", "gado", "sambal", "durian", "pantai", "sawah", "candi", "angkot", "becak", "kerupuk"];
-const N = ["total", "hasil", "jumlah", "skor", "nilai", "umur", "harga", "stok", "level", "waktu", "bobot", "tinggi", "lebar", "ukuran", "porsi", "antrian", "tiket", "saldo", "poin", "kuota", "batas", "indeks", "urut", "laju", "suhu"];
-const P = ["users", "produk", "artikel", "blog", "kontak", "tentang", "login", "profil", "pesan", "galeri", "harga", "menu", "kota", "toko", "kelas", "jadwal", "berita", "video", "tiket", "admin"];
-const H = { ri, pk, rep, cap };
-
-const POOL = {
-  frontend: CATALOG.filter((e) => FRONTEND_NAMES.includes(e[0]) || FULLSTACK_ONLY_NAMES.includes(e[0])),
-  backend: CATALOG.filter((e) => BACKEND_NAMES.includes(e[0]) || FULLSTACK_ONLY_NAMES.includes(e[0])),
-  fullstack: CATALOG.filter((e) => FRONTEND_NAMES.includes(e[0]) || BACKEND_NAMES.includes(e[0]) || FULLSTACK_ONLY_NAMES.includes(e[0])),
+const TARGET = Number(process.env.DEV_TARGET || 800); // soal per peran (syarat Master: 500 soal dijawab, akurasi ≥90%)
+const PER_FILE = 250;
+const by = (arr, ids) => arr.filter((f) => ids.includes(f.id));
+const SHARED_FE = by([...FE_JS, ...FE_CSS], ["fe-promise", "fe-async", "fe-json", "fe-events", "fe-react-state", "fe-eventloop", "fe-this"]);
+const SHARED_BE = by([...BE_SQL, ...BE_SYS], ["be-sql-join", "be-sql-window", "be-http", "be-nplus1", "be-percentile", "be-race", "be-isolation", "be-backoff", "be-deadlock", "be-index"]);
+const ROLES = {
+  frontend: { file: "dev-1-frontend", fam: [...FE_JS, ...FE_CSS, feCurated, ...extraFamilies("f")] },
+  backend: { file: "dev-2-backend", fam: [...BE_SQL, ...BE_PY, ...BE_SYS, ...extraFamilies("b")] },
+  fullstack: { file: "dev-3-fullstack", fam: [...FS_ONLY, ...SHARED_FE, ...SHARED_BE, ...extraFamilies("s")] },
 };
 
-const guess = (role, name, code, hl, expl, hint, prompt) => {
-  const o = shuf([name, ...shuf(POOL[role].map((x) => x[0]).filter((x) => x !== name)).slice(0, 2)]);
-  return ["guess", prompt, code, hl, o, o.indexOf(name), expl, hint];
-};
-const ERR = { str: "Error: string tidak ditutup", par: "Error: tanda kurung tidak seimbang", name: "Error: nama fungsi atau kata kunci tidak dikenal" };
-const NOVALID = new Set(["HTML", "CSS", "Bootstrap", "Tailwind CSS", "Alpine.js", "htmx", "Svelte"]);
-const PROMPT = { frontend: "Teknologi frontend apa ini?", backend: "Teknologi backend apa ini?", fullstack: "Teknologi apa ini?" };
-
-function devQ(role, e, kind) {
-  e = e || pk(POOL[role]); kind = kind || pk(["guess", "guess", "guess", "fill", "valid"]);
-  const [name, year, , hl, note, kw, fn] = e;
-  const code = fn(pk(W), pk(N), pk(P), ri(2, 99), H);
-  const hint = `Dirilis sekitar tahun ${year}. ${note}`;
-  if (kind === "fill" && kw && code.includes(kw)) {
-    const others = [...new Set(POOL[role].map((x) => x[5]).filter((k) => k && k !== kw))];
-    const o = shuf([kw, ...shuf(others).slice(0, 2)]);
-    return ["fill", `Lengkapi kode ${name} ini agar valid`, code.replace(kw, "____"), hl, o, o.indexOf(kw), `${kw} adalah bagian khas ${name}. ${note}`, hint];
-  }
-  const re = /(["'])([^"'\n]*)\1/;
-  if (kind === "valid" && !NOVALID.has(name)) {
-    const muts = [];
-    if (re.test(code)) muts.push("str");
-    if (code.includes(")")) muts.push("par");
-    if (kw && code.includes(kw)) muts.push("name");
-    if (muts.length) {
-      const bad = rnd() < 0.6, t = pk(muts), li = code.lastIndexOf(")");
-      let shown = code;
-      if (bad) shown = t === "str" ? code.replace(re, (_, q2, body) => q2 + body) : t === "par" ? code.slice(0, li) + code.slice(li + 1) : code.replace(kw, kw + "x");
-      const good = "Valid, struktur kodenya lengkap";
-      const wrong = shuf(Object.keys(ERR).filter((k) => k !== t)).slice(0, bad ? 1 : 2).map((k) => ERR[k]);
-      const o = shuf(bad ? [ERR[t], good, ...wrong] : [good, ...wrong]);
-      const why = { str: "Tanda kutip penutup hilang sehingga literal string tidak lengkap.", par: "Ada kurung tutup yang hilang sehingga kurung tidak seimbang.", name: `"${kw}" salah ketik menjadi "${kw}x" sehingga tidak dikenal oleh ${name}.` };
-      return ["valid", `Apakah kode ${name} ini valid?`, shown, hl, o, o.indexOf(bad ? ERR[t] : good), bad ? why[t] : `Kode ${name} ini lengkap dan valid. ${note}`, hint];
-    }
-  }
-  return guess(role, name, code, hl, `${name}: ${note}`, hint, PROMPT[role]);
-}
+// ── Pastikan TIDAK ada soal yang sama dengan Easy–Hell ──
+const norm = (s) => s.replace(/\s+/g, " ").replace(/''/g, "'").trim();
+const classic = ["1-easy", "2-normal", "3-hard", "4-extreme", "5-hell"].map((f) => norm(readFileSync(new URL(`../supabase/seed/${f}.sql`, import.meta.url), "utf8")));
+const clash = (code) => { const k = norm(code); return k.length > 25 && classic.some((t) => t.includes(k)); };
 
 const q = (s) => "'" + String(s).replace(/'/g, "''") + "'";
-const TARGET = 250;
-const FILE = { frontend: "dev-1-frontend", backend: "dev-2-backend", fullstack: "dev-3-fullstack" };
-mkdirSync(new URL("../supabase/seed/", import.meta.url), { recursive: true });
-const counts = {};
-for (const role of Object.keys(POOL)) {
-  const seen = new Set(), rows = [];
-  // Catatan: v2.1 Developer Mode baru berbahasa Indonesia saja (kolom _en dibiarkan null, UI akan
-  // jatuh ke teks Indonesia seperti pola fallback yang sudah ada di seluruh aplikasi).
-  const add = (r) => { if (!r) return false; const key = r[1] + r[2]; if (seen.has(key)) return false; seen.add(key);
-    rows.push(`(${q(role)},${q(r[0])},${q(r[1])},null,${q(r[2])},${q(r[3])},${q(JSON.stringify(r[4]))}::jsonb,null,${r[5]},${q(r[6])},null,${q(r[7])},null)`);
-    return true; };
-  for (const e of POOL[role]) for (const kind of ["guess", "guess", "guess", "guess", "fill", "valid"]) for (let k = 0; k < 8 && !add(devQ(role, e, kind)); k++);
-  let tries = 0;
-  while (seen.size < TARGET && tries++ < 40000) add(devQ(role));
-  // Jaminan cakupan (minimal 6 soal/entri) bisa melebihi TARGET untuk katalog besar — pangkas ke batas maksimal.
-  const finalRows = rows.length > TARGET ? shuf(rows).slice(0, TARGET) : rows;
-  counts[role] = finalRows.length;
-  const sql = `-- DIHASILKAN oleh scripts/gen-dev.mjs (${role}) — ${finalRows.length} soal\n` +
-    `insert into questions (difficulty,type,prompt,prompt_en,code,language,options,options_en,correct_index,explanation,explanation_en,hint,hint_en) values\n` +
-    finalRows.join(",\n") + ";\n";
-  writeFileSync(new URL(`../supabase/seed/${FILE[role]}.sql`, import.meta.url), sql);
+const stats = {}; const seenAll = new Set();
+const old = readdirSync(new URL("../supabase/seed/", import.meta.url)).filter((f) => /^dev-\d-/.test(f)); old.forEach((f) => unlinkSync(new URL(`../supabase/seed/${f}`, import.meta.url)));
+
+for (const [role, { file, fam }] of Object.entries(ROLES)) {
+  setSeed(20261019 + role.length * 7919);
+  const rows = [], perFam = {}, dead = new Set(), cap = {}; let lengthBias = 0;
+  const base = Math.ceil(TARGET / fam.length);
+  fam.forEach((f) => (cap[f.id + rows.length] = 0));
+  let factor = 1.5;
+  while (rows.length < TARGET && dead.size < fam.length) {
+    let progressed = false;
+    for (const f of shuf(fam)) {
+      if (rows.length >= TARGET) break;
+      if (dead.has(f)) continue;
+      if ((perFam[f.id] || 0) >= Math.ceil(base * factor)) continue;
+      let got = false;
+      for (let tries = 0; tries < 30 && !got; tries++) {
+        let r = null; try { r = await f.gen(); } catch { r = null; }
+        if (!r || r.options.length !== 3 || r.correct < 0) continue;
+        const key = r.prompt + "\u0001" + r.code; if (seenAll.has(key) || clash(r.code)) continue;
+        seenAll.add(key); perFam[f.id] = (perFam[f.id] || 0) + 1; got = progressed = true;
+        if (r.options[r.correct].length === Math.max(...r.options.map((o) => o.length))) lengthBias++;
+        rows.push(r);
+      }
+      if (!got) dead.add(f);
+    }
+    if (!progressed) factor *= 1.5; // semua famili sudah mencapai batas rata-rata → longgarkan agar famili yang masih luas mengisi sisa
+  }
+  const fin = rows.slice(0, TARGET).map((r) => `(${q(role)},${q(r.type)},${q(r.prompt)},null,${q(r.code)},${q(r.lang)},${q(JSON.stringify(r.options))}::jsonb,null,${r.correct},${q(r.expl)},null,${q(r.hint)},null)`);
+  const parts = Math.ceil(fin.length / PER_FILE);
+  for (let p = 0; p < parts; p++) {
+    const chunk = fin.slice(p * PER_FILE, (p + 1) * PER_FILE);
+    const head = `-- DIHASILKAN oleh scripts/gen-dev.mjs (${role}, bagian ${p + 1}/${parts}) — ${chunk.length} soal HARD MODE (v2.4)\n` + (p === 0 ? `-- Bagian 1 menonaktifkan soal Developer Mode lama (v2.1–v2.3) untuk peran ini; jalankan SEMUA bagian.\nupdate questions set active = false where difficulty = '${role}';\n` : "");
+    writeFileSync(new URL(`../supabase/seed/${file}-${p + 1}.sql`, import.meta.url), head + `insert into questions (difficulty,type,prompt,prompt_en,code,language,options,options_en,correct_index,explanation,explanation_en,hint,hint_en) values\n` + chunk.join(",\n") + ";\n");
+  }
+  stats[role] = { total: fin.length, files: parts, families: Object.keys(perFam).length, maxShare: Math.round((Math.max(...Object.values(perFam)) / fin.length) * 100) + "%", correctIsLongest: Math.round((lengthBias / rows.length) * 100) + "%", perFam };
 }
-console.log("Soal Developer Mode dihasilkan:", counts, "(maks per peran:", TARGET, ")");
+for (const [r, s] of Object.entries(stats)) { const { perFam, ...rest } = s; console.log(r, JSON.stringify(rest)); }
+writeFileSync(new URL("./dev-bank/REPORT.json", import.meta.url), JSON.stringify(stats, null, 1));
+console.log("selesai.");
